@@ -1,0 +1,27 @@
+{
+  "corrections": {
+    "lock ai": "LarcAI",
+    "lark ai": "LarcAI",
+    "france": "Frans",
+    "franz": "Frans",
+    "magdell": "Magdel",
+    "magdal": "Magdel",
+    "c shop": "C#",
+    "see sharp": "C#",
+    "your path": "UiPath",
+    "ui path": "UiPath",
+    "banks": "BaNCS"
+  },
+  "preserve_case": [
+    "LarcAI",
+    "BaNCS",
+    "UiPath",
+    "C#",
+    "GitHub",
+    "JavaScript",
+    "TypeScript",
+    "Node.js",
+    "ChatGPT",
+    "OpenAI"
+  ]
+}

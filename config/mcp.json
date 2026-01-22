@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "G:/My Drive/Shared_Download/AI_Folder",
+        "G:/My Drive/LarcAI",
+        "C:/GitHub"
+      ],
+      "description": "File system access for AI workspace, LarcAI projects, and GitHub repos"
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      },
+      "description": "GitHub repository operations - commits, issues, PRs"
+    },
+    "google-docs": {
+      "command": "node",
+      "args": ["C:/GitHub/google-docs-mcp/dist/server.js"],
+      "description": "Google Docs, Sheets & Drive - create, read, write, format documents"
+    }
+  }
+}

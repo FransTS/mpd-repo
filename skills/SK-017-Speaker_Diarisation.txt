@@ -1,0 +1,232 @@
+================================================================================
+SKILL SK-017: SPEAKER DIARISATION & IDENTIFICATION
+================================================================================
+Master Prompt Dictionary v4.8
+Frans - Frans Vermaak, CTGO
+================================================================================
+
+SKILL METADATA
+--------------
+Skill ID: SK-017
+Name: Speaker Diarisation & Identification
+Version: 1.0
+Created: 11 January 2026
+Tier: 2 (Persona-specific)
+Primary Persona: 015 - Bilingual Transcript Specialist
+Compatible Personas: 001, 006, 010
+
+SKILL OVERVIEW
+--------------
+Advanced methodology for identifying, separating, and labelling individual 
+speakers in audio/video recordings. Critical for accurate multi-speaker 
+transcription where speaker attribution is essential.
+
+================================================================================
+CORE METHODOLOGY
+================================================================================
+
+1. PRE-PROCESSING SPEAKER ANALYSIS
+----------------------------------
+
+INITIAL ASSESSMENT (First 2 minutes):
+1. Count distinct voices
+2. Note voice characteristics:
+   - Pitch (high/medium/low)
+   - Pace (fast/moderate/slow)
+   - Accent (regional identifiers)
+   - Speech patterns (formal/casual)
+3. Listen for name mentions/introductions
+4. Identify host/interviewer vs participant pattern
+
+SPEAKER PROFILE CREATION:
+For each identified speaker, document:
+- Temporary ID: SPEAKER_1, SPEAKER_2, etc.
+- Voice characteristics
+- First appearance timestamp
+- Name (if mentioned)
+- Role (if identifiable: interviewer, interviewee, presenter)
+
+2. IDENTIFICATION TRIGGERS
+--------------------------
+
+PRIMARY TRIGGERS (High Confidence):
+- Direct introduction: "Hi, I'm Frans Vermaak"
+- Addressed by name: "Thanks Brendan, that's helpful"
+- Self-reference: "As I mentioned to the team..."
+- Sign-off: "This is Frans, signing off"
+
+SECONDARY TRIGGERS (Medium Confidence):
+- Role reference: "As the project manager..."
+- Company reference: "We at Frans..."
+- Email/contact sharing: "Email me at name@company.com"
+
+CONTEXTUAL TRIGGERS (Low Confidence):
+- Technical expertise level
+- Decision-making authority
+- Meeting dynamics (who leads, who responds)
+
+3. SPEAKER CHANGE DETECTION
+---------------------------
+
+AUDIO CUES:
+- Silence/pause > 0.5 seconds between utterances
+- Pitch shift (indicates different speaker)
+- Volume change
+- Background noise change (different location/mic)
+- Interruption pattern
+
+LINGUISTIC CUES:
+- Response patterns: "Yes, I agree" (indicates previous speaker said something)
+- Question-answer pairs
+- Acknowledgments: "Mm-hmm", "Right", "Okay"
+- Turn-taking phrases: "Let me add to that..."
+
+PROBLEMATIC SCENARIOS:
+
+Overlapping Speech:
+- Mark with [crosstalk] or [overlapping]
+- Attempt to capture both if distinguishable
+- Attribute to most audible speaker if unclear
+
+Rapid Exchanges:
+- Use timestamps for every turn
+- Don't merge short responses into previous speaker
+
+Similar Voices:
+- Use additional context clues
+- Mark uncertain attributions with [?]
+- Note in metadata: "Speakers 2 and 3 have similar voices"
+
+4. DIARISATION WORKFLOW
+-----------------------
+
+PHASE 1 - AUTOMATED SEGMENTATION:
+Using faster-whisper with VAD (Voice Activity Detection):
+```python
+segments, info = model.transcribe(
+    audio_file,
+    beam_size=5,
+    vad_filter=True,
+    vad_parameters={
+        "min_silence_duration_ms": 500,
+        "speech_pad_ms": 200
+    }
+)
+```
+
+PHASE 2 - SPEAKER CLUSTERING:
+Group segments by voice similarity:
+1. Extract acoustic features per segment
+2. Cluster similar voices
+3. Assign temporary speaker IDs
+
+PHASE 3 - IDENTIFICATION PASS:
+1. Search transcript for name mentions
+2. Map names to speaker clusters
+3. Apply contextual identification rules
+4. Verify with cross-references
+
+PHASE 4 - VERIFICATION:
+1. Review first/last segments for introductions/closings
+2. Check speaker consistency throughout
+3. Verify question-answer attribution
+4. Resolve any [?] uncertain markers
+
+5. SPEAKER LABEL FORMATS
+------------------------
+
+KNOWN IDENTIFIED SPEAKERS:
+**FULL NAME** [TIMESTAMP]
+Example: **FRANS VERMAAK** [00:05:23]
+
+PARTIALLY IDENTIFIED:
+**SPEAKER (Role/Context)** [TIMESTAMP]
+Example: **SPEAKER 2 (Technical Lead)** [00:10:15]
+
+UNKNOWN SPEAKERS:
+**SPEAKER N** [TIMESTAMP]
+Where N is sequential by first appearance
+
+GROUP/MULTIPLE:
+**[MULTIPLE SPEAKERS]** [TIMESTAMP]
+**[GROUP RESPONSE]** [TIMESTAMP]
+
+6. COMMON PATTERNS IN Frans MEETINGS
+-------------------------------------
+
+INTERVIEW FORMAT (Use Case Analysis):
+- Pattern: Interviewer asks, Interviewee responds
+- Interviewer: Usually Frans Vermaak
+- Typical flow: Introduction â†’ Questions â†’ Discussion â†’ Wrap-up
+
+TECHNICAL DISCUSSION:
+- Multiple participants
+- Back-and-forth on technical details
+- Often includes client/customer voices
+
+SIGNALS FOR FRANS VERMAAK:
+- Initiates meetings
+- Asks structured questions
+- References "Frans", "our consultants", "knowledge base"
+- Often says "Let me explain" or "Let me take you through"
+- Closes meetings with action items
+
+7. ERROR PREVENTION
+-------------------
+
+COMMON MISTAKES TO AVOID:
+
+1. Merging Speakers on Short Utterances:
+   WRONG: Combining "Yes" with next person's statement
+   RIGHT: Separate attribution even for single words
+
+2. Assuming Same Speaker Across Silence:
+   WRONG: Long pause = same speaker continues
+   RIGHT: Re-verify speaker after pauses > 3 seconds
+
+3. Ignoring Acoustic Changes:
+   WRONG: Text-only analysis for speaker ID
+   RIGHT: Consider voice pitch, pace, quality changes
+
+4. Over-confidence in Uncertain Cases:
+   WRONG: Guessing speaker without markers
+   RIGHT: Use [SPEAKER ?] when uncertain, resolve later
+
+8. POST-PROCESSING VERIFICATION
+-------------------------------
+
+VERIFICATION CHECKLIST:
+â˜ All speakers have consistent labelling throughout
+â˜ No orphaned segments without speaker attribution
+â˜ Question-answer pairs correctly attributed
+â˜ Interruptions properly marked and attributed
+â˜ Group responses marked appropriately
+â˜ First/last segments verified for intro/outro
+â˜ Technical terms consistent across speakers
+â˜ No accidental speaker merges in rapid exchanges
+
+QUALITY METRICS:
+- Speaker Identification Rate: % of segments with confirmed speaker
+- Attribution Accuracy: % correct (verified against context)
+- Consistency Score: Same speaker = same label throughout
+
+================================================================================
+MCP INTEGRATION NOTES
+================================================================================
+
+RECOMMENDED TOOLS:
+1. faster-whisper - Primary transcription with VAD
+2. pyannote-audio - Speaker diarisation (if available)
+3. speechbrain - Alternative diarisation
+
+WORKFLOW INTEGRATION:
+1. Extract audio with ffmpeg
+2. Run initial transcription (faster-whisper)
+3. Apply speaker diarisation
+4. Merge transcription with speaker labels
+5. Post-process for accuracy
+6. Generate final output
+
+================================================================================
+END OF SKILL SK-017
+================================================================================

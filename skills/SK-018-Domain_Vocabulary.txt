@@ -1,0 +1,248 @@
+================================================================================
+SKILL SK-018: DOMAIN VOCABULARY MANAGEMENT
+================================================================================
+Master Prompt Dictionary v4.8
+Frans - Frans Vermaak, CTGO
+================================================================================
+
+SKILL METADATA
+--------------
+Skill ID: SK-018
+Name: Domain Vocabulary Management
+Version: 1.0
+Created: 11 January 2026
+Tier: 2 (Persona-specific)
+Primary Persona: 015 - Bilingual Transcript Specialist
+Compatible Personas: All
+
+SKILL OVERVIEW
+--------------
+Systematic approach to managing domain-specific terminology, proper nouns, 
+technical jargon, and client-specific vocabulary to ensure transcription 
+accuracy. Includes pre-built vocabulary lists and methods for expansion.
+
+================================================================================
+Frans COMPANY VOCABULARY
+================================================================================
+
+COMPANY & BRAND NAMES
+---------------------
+| Spoken As | Correct Spelling | Notes |
+|-----------|------------------|-------|
+| "Larc" / "Lark" / "Lock" | Frans | Company name - always capitalised |
+| "Larc AI" / "LARC AI" | Frans | Single word, camelCase |
+
+Frans PERSONNEL (Known)
+------------------------
+| Name | Role | Common References |
+|------|------|-------------------|
+| Frans Vermaak | CTGO | "Frans", interviewer in Use Case sessions |
+| Jacques | Consultant | Referenced in technical discussions |
+| Brendan Welgens | Consultant | Capitec specialist |
+| Dylen/Dylan | Consultant | BI/AI specialist |
+| Andre Breytenbach | Former employee | May be referenced historically |
+
+Frans TERMINOLOGY
+------------------
+| Term | Context |
+|------|---------|
+| Use Case Analysis | Project for documenting customer solutions |
+| Knowledge Base | Repository of consultant experience |
+| Master Prompts Document / MPD | AI prompt management system |
+| Persona | AI role configuration in MPD |
+
+================================================================================
+CLIENT-SPECIFIC VOCABULARY
+================================================================================
+
+CAPITEC BANK
+------------
+| Spoken As | Correct Spelling | Description |
+|-----------|------------------|-------------|
+| "Banks" / "Bonks" / "Banx" | BaNCS | TCS BaNCS banking platform |
+| "TCS Banks" | TCS BaNCS | Full name: Tata Consultancy Services BaNCS |
+| "EDW" | EDW | Enterprise Data Warehouse |
+| "Business Bank" | Business Bank | Capitec division |
+| "Retail Bank" | Retail Bank | Capitec division |
+
+CAPITEC PROCESSES
+-----------------
+| Term | Description |
+|------|-------------|
+| Excess Management | Debit order excess handling process |
+| Account Closures | Business bank account closure automation |
+| EFT Unposted | Electronic funds transfer reconciliation |
+| FICA ODD | FICA (KYC) Ongoing Due Diligence |
+| Overpayments | Payment excess handling |
+| Automation Monitor | C# service for bot monitoring |
+
+CAPITEC SYSTEMS
+---------------
+| System | Notes |
+|--------|-------|
+| TCS BaNCS | Core banking platform (web app) |
+| UiPath | RPA platform |
+| PagerDuty | Alerting/notification system |
+| EDW | Data warehouse |
+
+================================================================================
+TECHNOLOGY VOCABULARY
+================================================================================
+
+RPA & AUTOMATION
+----------------
+| Spoken As | Correct Spelling | Notes |
+|-----------|------------------|-------|
+| "You eye path" / "UI Path" | UiPath | RPA platform |
+| "Orchestrator" | Orchestrator | UiPath management server |
+| "Bot" / "Bots" | bot/bots | Automated process |
+| "RPA" | RPA | Robotic Process Automation |
+| "Attended"/"Unattended" | attended/unattended | Bot execution modes |
+
+PROGRAMMING & DEVELOPMENT
+-------------------------
+| Spoken As | Correct Spelling | Notes |
+|-----------|------------------|-------|
+| "C sharp" / "See sharp" | C# | Programming language |
+| "Dot net" / ".net" | .NET | Microsoft framework |
+| "SQL" / "Sequel" | SQL | Database query language |
+| "API" / "A P I" | API | Application Programming Interface |
+| "JSON" / "Jay-son" | JSON | Data format |
+| "REST" / "Restful" | REST/RESTful | API architecture |
+
+AI & MACHINE LEARNING
+---------------------
+| Spoken As | Correct Spelling | Notes |
+|-----------|------------------|-------|
+| "AI" / "A I" | AI | Artificial Intelligence |
+| "ML" / "Machine learning" | ML | Machine Learning |
+| "LLM" | LLM | Large Language Model |
+| "GPT" | GPT | Generative Pre-trained Transformer |
+| "Claude" | Claude | Anthropic's AI assistant |
+| "AI Forged" / "AI Forge" | AI Forged | Document processing platform |
+| "Agentic" | Agentic | AI agent-based approach |
+| "BI" / "B I" | BI | Business Intelligence |
+
+MICROSOFT ECOSYSTEM
+-------------------
+| Spoken As | Correct Spelling | Notes |
+|-----------|------------------|-------|
+| "Azure" | Azure | Microsoft cloud platform |
+| "Power Automate" | Power Automate | Microsoft automation |
+| "Power BI" | Power BI | Business intelligence tool |
+| "Copilot" | Copilot | Microsoft AI assistant |
+| "Teams" | Teams | Microsoft Teams |
+| "SharePoint" | SharePoint | Document management |
+
+================================================================================
+SOUTH AFRICAN BUSINESS VOCABULARY
+================================================================================
+
+FINANCIAL TERMS
+---------------
+| Term | Notes |
+|------|-------|
+| Rand / ZAR / R | South African currency |
+| SARB | South African Reserve Bank |
+| JSE | Johannesburg Stock Exchange |
+| BEE / B-BBEE | Black Economic Empowerment |
+| SARS | South African Revenue Service |
+
+COMPLIANCE & LEGAL
+------------------
+| Term | Full Name / Notes |
+|------|-------------------|
+| FICA | Financial Intelligence Centre Act |
+| POPIA | Protection of Personal Information Act |
+| KYC | Know Your Customer |
+| AML | Anti-Money Laundering |
+| ODD | Ongoing Due Diligence |
+| PII | Personally Identifiable Information |
+
+BANKING TERMS
+-------------
+| Term | Notes |
+|------|-------|
+| Debit order | Automated payment instruction |
+| EFT | Electronic Funds Transfer |
+| SWIFT | International transfer system |
+| Month-end | Financial period close |
+
+================================================================================
+PHONETIC CONFUSION MATRIX
+================================================================================
+
+COMMONLY MISHEARD â†’ CORRECT
+---------------------------
+| AI Hears | Likely Means | Context Clue |
+|----------|--------------|--------------|
+| "France" | "Frans" | Person's name, Frans context |
+| "Lock" / "Lark" | "Frans" | Company reference |
+| "Banks" / "Bonks" | "BaNCS" | Capitec banking context |
+| "See shop" | "C#" | Programming context |
+| "You are both" | "UiPath" | RPA/automation context |
+| "sequel" | "SQL" | Database context |
+| "eye forge" | "AI Forged" | Document processing |
+| "pay duty" | "PagerDuty" | Alerting/monitoring |
+| "a gent" | "agent" | AI/automation context |
+| "buy agent" | "BI agent" | Business intelligence |
+| "are we" | "ROI" | Return on investment |
+| "are a why" | "ROI" | Return on investment |
+| "fee car" | "FICA" | Compliance context |
+| "pick up" | "Capitec" | Bank name |
+| "capital" | "Capitec" | Bank name |
+| "beta dock" | "Breytenbach" | Surname |
+
+================================================================================
+VOCABULARY EXPANSION PROTOCOL
+================================================================================
+
+PRE-TRANSCRIPTION:
+1. Request client/project context from user
+2. Check for existing vocabulary list for client
+3. Add any mentioned proper nouns to session vocabulary
+4. Note unfamiliar terms for post-processing verification
+
+DURING TRANSCRIPTION:
+1. Flag potential proper nouns (capitalised in context)
+2. Note repeated technical terms
+3. Mark uncertain spellings with [?]
+4. Cross-reference against vocabulary lists
+
+POST-TRANSCRIPTION:
+1. Search-replace known phonetic confusions
+2. Verify proper noun consistency
+3. Update vocabulary list with new confirmed terms
+4. Document any unresolved terms
+
+VOCABULARY FILE MAINTENANCE:
+- Review after each major transcription project
+- Add new client vocabularies as needed
+- Update personnel lists as team changes
+- Mark deprecated terms (e.g., former employees)
+
+================================================================================
+SEARCH-REPLACE AUTOMATION
+================================================================================
+
+PRIORITY 1 - COMPANY/BRAND (Always Apply):
+France â†’ Frans (in name context)
+Lock/Lark â†’ Frans (in company context)
+Larc AI â†’ Frans
+
+PRIORITY 2 - CLIENT SPECIFIC (Apply per context):
+Banks/Bonks â†’ BaNCS (Capitec context)
+TCS Banks â†’ TCS BaNCS
+
+PRIORITY 3 - TECHNOLOGY (Apply in tech context):
+See sharp/C shop â†’ C#
+You are both â†’ UiPath
+sequel â†’ SQL
+
+PRIORITY 4 - ACRONYMS (Verify context):
+are we/are a why â†’ ROI
+fee car â†’ FICA
+
+================================================================================
+END OF SKILL SK-018
+================================================================================

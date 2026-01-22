@@ -1,0 +1,317 @@
+================================================================================
+PROTOCOL PR-015: TRANSCRIPTION QUALITY ASSURANCE
+================================================================================
+Master Prompt Dictionary v4.8
+Frans - Frans Vermaak, CTGO
+================================================================================
+
+PROTOCOL METADATA
+-----------------
+Protocol ID: PR-015
+Name: Transcription Quality Assurance
+Version: 1.0
+Created: 10 January 2026
+Type: Quality Control
+Primary Persona: 015 - Bilingual Transcript Specialist
+Mandatory: Yes (for all transcription outputs)
+
+PROTOCOL OVERVIEW
+-----------------
+Standardised quality assurance procedures ensuring transcription accuracy, 
+consistency, and professional output quality. Applies to all Afrikaans/English 
+bilingual transcriptions regardless of length or format.
+
+================================================================================
+PHASE 1: PRE-TRANSCRIPTION ASSESSMENT
+================================================================================
+
+1.1 AUDIO QUALITY EVALUATION
+----------------------------
+Rate on 1-5 scale:
+
+5 - EXCELLENT
+- Crystal clear audio
+- No background noise
+- All speakers clearly distinguishable
+- Professional recording quality
+
+4 - GOOD
+- Clear audio with minor issues
+- Minimal background noise
+- Speakers mostly distinguishable
+- Occasional volume variation
+
+3 - ACCEPTABLE
+- Understandable with effort
+- Moderate background noise
+- Some speaker overlap
+- Requires concentration
+
+2 - CHALLENGING
+- Difficult to understand
+- Significant background noise
+- Frequent speaker confusion
+- Multiple inaudible sections expected
+
+1 - POOR
+- Very difficult to understand
+- Heavy background interference
+- Speakers often indistinguishable
+- May require audio enhancement
+
+ACTION THRESHOLDS:
+- Score 4-5: Proceed normally
+- Score 3: Note in transcript header, allow extra time
+- Score 2: Inform client, request enhancement if possible
+- Score 1: Recommend audio enhancement before transcription
+
+1.2 TECHNICAL PARAMETERS CHECKLIST
+----------------------------------
+â˜ Recording format identified (.mp3, .wav, .mp4, etc.)
+â˜ Total duration noted
+â˜ Sample rate adequate (minimum 16kHz for speech)
+â˜ Stereo/mono identified
+â˜ Any DRM or protection checked
+
+1.3 CONTENT ASSESSMENT
+----------------------
+â˜ Approximate speaker count
+â˜ Language distribution (% Afrikaans / % English)
+â˜ Formality level (formal meeting / casual conversation)
+â˜ Technical terminology present
+â˜ Sensitive content warnings
+
+1.4 CLIENT REQUIREMENTS CONFIRMED
+---------------------------------
+â˜ Verbatim level (strict / clean / intelligent)
+â˜ Output format(s) required
+â˜ Timestamp frequency preference
+â˜ Speaker identification method
+â˜ Language tagging requirement
+â˜ Deadline confirmed
+â˜ Confidentiality requirements
+
+================================================================================
+PHASE 2: DURING TRANSCRIPTION
+================================================================================
+
+2.1 REAL-TIME QUALITY MARKERS
+-----------------------------
+Flag immediately during transcription:
+
+[FLAG: INAUDIBLE] - Cannot determine content
+[FLAG: UNCLEAR] - Uncertain but attempted
+[FLAG: SPEAKER?] - Speaker identification uncertain
+[FLAG: TERM?] - Technical term needs verification
+[FLAG: NAME?] - Proper noun needs verification
+[FLAG: TIMESTAMP] - Potential timestamp accuracy issue
+
+2.2 CONSISTENCY CHECKPOINTS
+---------------------------
+At 15-minute intervals:
+â˜ Speaker labels consistent
+â˜ Timestamp format consistent
+â˜ Language tag format consistent
+â˜ Verbatim level maintained
+â˜ Formatting consistent
+
+2.3 SPEAKER TRACKING LOG
+------------------------
+Maintain running log:
+| Speaker ID | First Appears | Identified As | Confidence |
+|------------|---------------|---------------|------------|
+| Speaker 1  | 00:00:05      | Frans Vermaak | Confirmed  |
+| Speaker 2  | 00:01:23      | Unknown Male  | -          |
+
+Update identifications as they become known in recording.
+
+2.4 ISSUE LOG
+-------------
+Document all issues encountered:
+| Timestamp | Issue Type | Description | Resolution |
+|-----------|------------|-------------|------------|
+| 00:15:23  | Inaudible  | Background noise | Marked [inaudible - 3s] |
+| 00:22:45  | Crosstalk  | 2 speakers | Noted overlapping |
+
+================================================================================
+PHASE 3: POST-TRANSCRIPTION VERIFICATION
+================================================================================
+
+3.1 SPELL-CHECK PROCEDURE
+-------------------------
+
+ENGLISH:
+1. Run spell-check with South African English dictionary
+2. Add technical terms to custom dictionary
+3. Verify proper nouns separately
+4. Check for homophones (their/there/they're)
+
+AFRIKAANS:
+1. Run spell-check with Afrikaans dictionary
+2. Verify diacritical marks: Ãª, Ã«, Ã´, Ã¶, Ã¯
+3. Check apostrophe in 'n (article)
+4. Verify compound word boundaries
+5. Cross-check loan words
+
+BILINGUAL:
+1. No false positives from language mixing
+2. Verify ge- + English verb forms
+3. Check code-switching boundaries
+
+3.2 SPEAKER VERIFICATION
+------------------------
+â˜ All speakers consistently labelled throughout
+â˜ No orphan speaker IDs (used once then changed)
+â˜ Gender identification consistent (if used)
+â˜ Final speaker list matches transcript content
+
+3.3 TIMESTAMP VERIFICATION
+--------------------------
+Perform minimum 5 random timestamp checks:
+
+| Check # | Timestamp | Verified | Variance |
+|---------|-----------|----------|----------|
+| 1       | 00:05:23  | â˜        | Â±Xs      |
+| 2       | 00:15:47  | â˜        | Â±Xs      |
+| 3       | 00:28:12  | â˜        | Â±Xs      |
+| 4       | 00:42:55  | â˜        | Â±Xs      |
+| 5       | 00:58:30  | â˜        | Â±Xs      |
+
+ACCEPTABLE VARIANCE: Â±2 seconds
+ACTION IF EXCEEDED: Re-sync and verify section
+
+3.4 INAUDIBLE/UNCLEAR REVIEW
+----------------------------
+For each marked section:
+1. Re-listen with volume boost
+2. Re-listen with headphones
+3. Try different playback speed
+4. If still unclear, mark remains
+5. Document percentage of inaudible content
+
+QUALITY THRESHOLDS:
+- <1% inaudible: Excellent
+- 1-3% inaudible: Good
+- 3-5% inaudible: Acceptable
+- >5% inaudible: Note in delivery, may need client review
+
+3.5 FORMATTING VERIFICATION
+---------------------------
+â˜ Consistent paragraph breaks
+â˜ Consistent punctuation style
+â˜ Consistent timestamp format
+â˜ Consistent speaker format
+â˜ No double spaces
+â˜ No orphan lines/headers
+â˜ Page breaks logical (DOCX)
+â˜ Character limits respected (SRT/VTT)
+
+================================================================================
+PHASE 4: QUALITY METRICS CALCULATION
+================================================================================
+
+4.1 WORD ERROR RATE (WER)
+-------------------------
+For sample verification (minimum 500 words):
+
+WER = (Substitutions + Deletions + Insertions) / Total Words Ã— 100
+
+TARGET: <1%
+ACCEPTABLE: <2%
+ACTION REQUIRED: >2%
+
+4.2 SPEAKER IDENTIFICATION ACCURACY
+-----------------------------------
+SIA = Correctly Identified Turns / Total Speaker Turns Ã— 100
+
+TARGET: >98%
+ACCEPTABLE: >95%
+ACTION REQUIRED: <95%
+
+4.3 TIMESTAMP ACCURACY
+----------------------
+Calculate average variance from 5+ spot checks
+
+TARGET: Â±2 seconds average
+ACCEPTABLE: Â±5 seconds average
+ACTION REQUIRED: >5 seconds average
+
+4.4 COMPLETION METRICS
+----------------------
+- Total words transcribed
+- Total duration covered
+- Words per minute (speaking rate reference)
+- Inaudible percentage
+- Unclear percentage
+
+================================================================================
+PHASE 5: FINAL DELIVERY CHECKLIST
+================================================================================
+
+5.1 DOCUMENT HEADER (If applicable)
+-----------------------------------
+â˜ Meeting/Recording title
+â˜ Date of recording
+â˜ Date of transcription
+â˜ Total duration
+â˜ Participants/Speakers listed
+â˜ Transcriptionist identification
+â˜ Verbatim level noted
+â˜ Confidentiality notice (if required)
+
+5.2 QUALITY SUMMARY
+-------------------
+Include with delivery:
+
+TRANSCRIPTION QUALITY SUMMARY
+-----------------------------
+Recording Duration: [HH:MM:SS]
+Audio Quality Score: [1-5]
+Word Count: [N]
+Speaker Count: [N]
+Language Mix: [X% English / Y% Afrikaans]
+Inaudible Content: [X%]
+Timestamp Accuracy: [Â±Xs average]
+Verbatim Level: [Strict/Clean/Intelligent]
+Output Format: [Format]
+
+Notes: [Any relevant observations]
+
+5.3 FILE NAMING CONVENTION
+--------------------------
+[DATE]_[CLIENT]_[DESCRIPTION]_[FORMAT].[ext]
+
+Examples:
+20260110_Frans_BoardMeeting_Transcript.docx
+20260110_Frans_Interview_Subtitles.srt
+
+5.4 DELIVERY CONFIRMATION
+-------------------------
+â˜ Correct format delivered
+â˜ File opens correctly
+â˜ No corruption or encoding issues
+â˜ Matches requested specification
+â˜ Quality summary included
+â˜ Secure transfer method used (if confidential)
+
+================================================================================
+ESCALATION PROCEDURES
+================================================================================
+
+ESCALATE TO CLIENT WHEN:
+1. Audio quality prevents >10% transcription
+2. Speaker identification impossible for key participants
+3. Technical terminology cannot be verified
+4. Content sensitivity requires clarification
+5. Deadline cannot be met due to quality issues
+
+ESCALATION FORMAT:
+Subject: Transcription Quality Issue - [Recording Name]
+Issue: [Clear description]
+Impact: [How this affects deliverable]
+Options: [Proposed solutions]
+Recommendation: [Preferred approach]
+
+================================================================================
+END OF PROTOCOL PR-015
+================================================================================

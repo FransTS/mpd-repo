@@ -1,0 +1,369 @@
+================================================================================
+PROTOCOL PR-016: TRANSCRIPTION ACCURACY ENHANCEMENT
+================================================================================
+Master Prompt Dictionary v4.8
+Frans - Frans Vermaak, CTGO
+================================================================================
+
+PROTOCOL METADATA
+-----------------
+Protocol ID: PR-016
+Name: Transcription Accuracy Enhancement
+Version: 1.0
+Created: 11 January 2026
+Type: Accuracy Control
+Primary Persona: 015 - Bilingual Transcript Specialist
+Mandatory: Yes (for all AI-assisted transcription)
+Dependencies: SK-017 (Speaker Diarisation), SK-018 (Domain Vocabulary)
+
+PROTOCOL OVERVIEW
+-----------------
+Enhanced accuracy procedures specifically designed to address common AI 
+transcription errors including speaker misattribution, proper noun recognition, 
+technical terminology, and domain-specific vocabulary. This protocol 
+supplements PR-015 with targeted accuracy improvements.
+
+================================================================================
+PHASE 1: PRE-TRANSCRIPTION PREPARATION
+================================================================================
+
+1.1 CONTEXT GATHERING
+---------------------
+MANDATORY: Before transcription, collect:
+
+â˜ Meeting/recording purpose
+â˜ Known participant names (with spelling)
+â˜ Client/company context
+â˜ Expected technical terminology
+â˜ Industry/domain vocabulary
+
+CONTEXT TEMPLATE:
+```
+Recording: [filename]
+Purpose: [e.g., Use Case Analysis Interview]
+Participants:
+  - [Name 1] - [Role]
+  - [Name 2] - [Role]
+Client: [Client name]
+Domain: [e.g., Banking, RPA, AI]
+Expected Terms: [list key terms]
+```
+
+1.2 VOCABULARY PREPARATION
+--------------------------
+Load applicable vocabulary lists from SK-018:
+â˜ Frans company vocabulary (always)
+â˜ Client-specific vocabulary (per context)
+â˜ Technology vocabulary (per domain)
+â˜ South African business vocabulary (if relevant)
+
+Create session-specific additions:
+â˜ Participant names with phonetic guides
+â˜ Any new proper nouns mentioned by user
+â˜ Project-specific terminology
+
+1.3 SPEAKER PROFILE PREPARATION
+-------------------------------
+For known participants, prepare identification aids:
+
+SPEAKER PROFILE:
+Name: Frans Vermaak
+Role: CTGO, Interviewer
+Voice Notes: Male, moderate pace, SA English accent
+Speech Patterns:
+  - Opens meetings with greetings
+  - Uses "Let me explain", "Let me take you through"
+  - References "Frans", "our consultants", "knowledge base"
+  - Closes with action items
+
+================================================================================
+PHASE 2: ENHANCED TRANSCRIPTION WORKFLOW
+================================================================================
+
+2.1 MULTI-PASS TRANSCRIPTION APPROACH
+--------------------------------------
+
+PASS 1 - RAW TRANSCRIPTION:
+- Run faster-whisper with VAD filter
+- Capture all segments without speaker assignment
+- Retain timestamps and confidence scores
+- Output: Raw transcript JSON
+
+PASS 2 - SPEAKER DIARISATION:
+- Apply speaker clustering (if tool available)
+- OR manual identification pass:
+  - Listen to first 2 minutes for introductions
+  - Identify voice characteristics per speaker
+  - Map voices to known participant names
+- Output: Speaker-assigned transcript
+
+PASS 3 - VOCABULARY CORRECTION:
+- Apply search-replace from SK-018 vocabulary
+- Priority order:
+  1. Company/brand names
+  2. Person names
+  3. Client-specific terms
+  4. Technical terminology
+  5. Acronyms
+- Output: Vocabulary-corrected transcript
+
+PASS 4 - ACCURACY REVIEW:
+- Review flagged uncertain sections
+- Verify proper noun consistency
+- Check speaker attribution logic
+- Resolve any [?] markers
+- Output: Final transcript
+
+2.2 SPEAKER IDENTIFICATION PROCEDURE
+------------------------------------
+
+STEP 1 - INITIAL IDENTIFICATION:
+Listen to recording start (first 2-3 minutes):
+- Note any introductions
+- Identify interviewer vs interviewee pattern
+- Count distinct voices
+- Document voice characteristics
+
+STEP 2 - ONGOING VERIFICATION:
+Throughout transcription:
+- Listen for name mentions ("Thanks Brendan")
+- Note role references ("As the project manager")
+- Track question-answer patterns
+- Update speaker assignments as confirmed
+
+STEP 3 - CROSS-REFERENCE CHECK:
+At transitions/speaker changes:
+- Verify speaker change is acoustically distinct
+- Check logical flow (Q&A pairs)
+- Don't merge short responses with wrong speaker
+
+STEP 4 - FINAL VERIFICATION:
+Before completion:
+- List all identified speakers
+- Verify consistent labelling throughout
+- Resolve any remaining unknowns with context
+
+2.3 ACCURACY CHECKPOINTS
+------------------------
+
+CHECKPOINT 1 (After first 5 minutes):
+â˜ Speaker identification established
+â˜ Main participants named
+â˜ Vocabulary corrections applied to sample
+â˜ Any critical issues noted
+
+CHECKPOINT 2 (At 50% mark):
+â˜ Speaker consistency verified
+â˜ No speaker ID drift
+â˜ Technical terms consistent
+â˜ Proper nouns verified
+
+CHECKPOINT 3 (Final):
+â˜ Full vocabulary pass complete
+â˜ All speakers correctly labelled
+â˜ No orphan segments
+â˜ Quality metrics calculated
+
+================================================================================
+PHASE 3: VOCABULARY CORRECTION PROCEDURES
+================================================================================
+
+3.1 AUTOMATED CORRECTIONS
+-------------------------
+
+HIGH CONFIDENCE (Apply automatically):
+These patterns are almost always errors:
+
+| Pattern | Correction | Context |
+|---------|------------|---------|
+| France (name context) | Frans | Personal name |
+| Lock/Lark/Lark AI | Frans | Company |
+| Larc AI | Frans | Company |
+
+MEDIUM CONFIDENCE (Apply with context check):
+
+| Pattern | Correction | Verify Context |
+|---------|------------|----------------|
+| Banks/Bonks | BaNCS | Capitec/banking |
+| TCS Banks | TCS BaNCS | Banking platform |
+| See sharp/C shop | C# | Programming |
+| You are both | UiPath | RPA/automation |
+| sequel | SQL | Database |
+| pay duty | PagerDuty | Monitoring |
+
+LOW CONFIDENCE (Manual review required):
+
+| Pattern | Possible Correction | Notes |
+|---------|---------------------|-------|
+| are we/are a why | ROI | Could be "are we" literally |
+| fee car | FICA | Could be other word |
+| capital | Capitec | Could be "capital" literally |
+
+3.2 PROPER NOUN VERIFICATION
+----------------------------
+
+FOR PERSON NAMES:
+1. Check against known participant list
+2. Listen for context ("Hi [Name]", "Thanks [Name]")
+3. Verify spelling from provided roster
+4. If unknown, mark for client verification
+
+FOR COMPANY/BRAND NAMES:
+1. Check against vocabulary lists
+2. Apply standard capitalisation rules
+3. Verify official spelling if uncertain
+4. Note any variations for consistency
+
+FOR TECHNICAL TERMS:
+1. Check against domain vocabulary
+2. Verify with industry standard spelling
+3. Use consistent form throughout
+4. Add to session vocabulary if new
+
+3.3 CORRECTION LOG
+------------------
+Maintain log of all corrections:
+
+| Timestamp | Original | Corrected | Reason | Confidence |
+|-----------|----------|-----------|--------|------------|
+| 00:05:23 | France | Frans | Name context | High |
+| 00:12:45 | Banks | BaNCS | Capitec context | High |
+| 00:18:30 | See sharp | C# | Programming | High |
+
+================================================================================
+PHASE 4: SPEAKER ATTRIBUTION ACCURACY
+================================================================================
+
+4.1 ATTRIBUTION RULES
+---------------------
+
+RULE 1 - GREETING ATTRIBUTION:
+First speaker after silence/start = Meeting initiator (usually interviewer)
+Response = Interviewee
+
+RULE 2 - QUESTION-ANSWER:
+Questions typically from interviewer
+Detailed answers from interviewee
+Short confirmations may come from either
+
+RULE 3 - NO MERGE:
+Never merge different speakers into one segment
+Even single-word responses get own attribution:
+  WRONG: FRANS: "Do you understand? Yes, I do."
+  RIGHT: FRANS: "Do you understand?"
+         BRENDAN: "Yes, I do."
+
+RULE 4 - INTERRUPTION HANDLING:
+Mark interruptions clearly:
+  FRANS: "So the processâ€”"
+  BRENDAN: [interrupting] "Sorry, just to clarify..."
+  FRANS: [continuing] "â€”the process starts at 9am."
+
+RULE 5 - OVERLAPPING SPEECH:
+Mark clearly, attribute to primary speaker:
+  FRANS: "The deadline is Friday."
+  [crosstalk - BRENDAN acknowledging]
+  BRENDAN: "Understood."
+
+4.2 COMMON MISATTRIBUTION PATTERNS
+----------------------------------
+
+PATTERN 1 - SHORT RESPONSE MERGE:
+AI often merges "Yes" or "Okay" with next speaker
+Solution: Listen for voice change, separate attributions
+
+PATTERN 2 - RAPID EXCHANGE COLLAPSE:
+Quick back-and-forth gets collapsed
+Solution: Use timestamps to anchor each turn
+
+PATTERN 3 - SIMILAR VOICE CONFUSION:
+Two speakers with similar voices get mixed
+Solution: Use content logic, speech patterns
+
+PATTERN 4 - POST-SILENCE RESET:
+After silence, AI may forget speaker identity
+Solution: Re-verify speaker after gaps > 3 seconds
+
+4.3 VERIFICATION QUESTIONS
+--------------------------
+For each segment, verify:
+1. Does this voice match the attributed speaker?
+2. Does the content make sense for this speaker?
+3. Is the transition from previous speaker logical?
+4. Are Q&A pairs correctly attributed?
+
+================================================================================
+PHASE 5: OUTPUT FORMATTING FOR ACCURACY
+================================================================================
+
+5.1 TIMESTAMP PRECISION
+-----------------------
+Use per-utterance timestamps (not per-segment):
+  **FRANS VERMAAK** [00:05:23]
+  "Question text here."
+
+  **BRENDAN WELGENS** [00:05:35]
+  "Answer text here."
+
+Not:
+  **SPEAKER** [00:05:23 - 00:06:45]
+  "Multiple exchanges incorrectly merged."
+
+5.2 SPEAKER FORMAT
+------------------
+Use consistent format throughout:
+
+PREFERRED FORMAT:
+**SPEAKER NAME** [MM:SS]
+"Quoted speech content."
+
+ALTERNATIVE (Inline):
+**MM:SS - Speaker Name:** Speech content without quotes.
+
+5.3 PARAGRAPH STRUCTURE
+-----------------------
+- New speaker = New paragraph
+- Long monologue = Logical paragraph breaks
+- Don't break mid-sentence for line length
+- Preserve natural speech flow
+
+================================================================================
+PHASE 6: QUALITY ASSURANCE METRICS
+================================================================================
+
+6.1 ACCURACY METRICS
+--------------------
+
+VOCABULARY ACCURACY:
+Correct technical terms / Total technical terms Ã— 100
+Target: >99%
+
+PROPER NOUN ACCURACY:
+Correct names/brands / Total names/brands Ã— 100
+Target: >99%
+
+SPEAKER ATTRIBUTION ACCURACY:
+Correctly attributed turns / Total speaker turns Ã— 100
+Target: >98%
+
+OVERALL ACCURACY:
+(Correct words - Errors) / Total words Ã— 100
+Target: >99%
+
+6.2 REVIEW CHECKLIST
+--------------------
+Before delivery, verify:
+
+â˜ All known vocabulary corrections applied
+â˜ All participant names correctly spelled
+â˜ Company names (Frans) correct throughout
+â˜ Client terminology (BaNCS) correct
+â˜ Technical terms consistent
+â˜ Speaker attributions logical
+â˜ No merged speaker segments
+â˜ Timestamps per speaker turn
+â˜ Proper noun capitalisation consistent
+
+================================================================================
+END OF PROTOCOL PR-016
+================================================================================

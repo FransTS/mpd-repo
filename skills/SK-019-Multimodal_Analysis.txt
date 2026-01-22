@@ -1,0 +1,286 @@
+================================================================================
+SKILL SK-019: MULTIMODAL VIDEO TRANSCRIPTION ANALYSIS
+================================================================================
+Master Prompt Dictionary v4.8.2
+Frans - Frans Vermaak, CTGO
+================================================================================
+
+SKILL METADATA
+--------------
+Skill ID: SK-019
+Name: Multimodal Video Transcription Analysis
+Version: 1.0
+Created: 11 January 2026
+Tier: 2 (Persona-specific)
+Primary Persona: 015 - Bilingual Transcript Specialist
+Compatible Personas: 006, 010
+
+SKILL OVERVIEW
+--------------
+Advanced methodology combining audio transcription with video frame analysis
+to achieve accurate speaker identification. Uses Claude's vision capability
+to visually verify who is speaking at key timestamps, eliminating the 
+unreliability of audio-only speaker diarisation.
+
+================================================================================
+CORE METHODOLOGY
+================================================================================
+
+1. WHY MULTIMODAL ANALYSIS
+--------------------------
+
+AUDIO-ONLY LIMITATIONS:
+- Speech recognition (Whisper) cannot distinguish speakers
+- Voice clustering unreliable for similar voices/accents
+- Content-based attribution is algorithmic guessing
+- Rapid speaker changes cause segment merging
+
+VIDEO ADVANTAGE:
+- Visual confirmation of active speaker
+- Camera focus indicates who is speaking
+- Lip movement provides definitive identification
+- Position tracking enables consistent attribution
+
+ACCURACY IMPROVEMENT:
+| Method | Speaker Accuracy |
+|--------|------------------|
+| Audio-only guess | ~60-70% |
+| Content analysis | ~75-85% |
+| Visual verification | >98% |
+
+2. WORKFLOW PHASES
+------------------
+
+PHASE 1: AUDIO PROCESSING
+- Extract audio track from video
+- Transcribe with timestamps using faster-whisper
+- Apply VAD (Voice Activity Detection) for segment boundaries
+- Output: Raw transcript with timestamps
+
+PHASE 2: KEY FRAME EXTRACTION
+- Identify key timestamps for visual analysis
+- Extract video frames at those timestamps
+- Prioritise: start, speaker transitions, regular intervals
+- Output: Image files for visual analysis
+
+PHASE 3: VISUAL SPEAKER IDENTIFICATION
+- Analyse each key frame using Claude vision
+- Identify visible participants
+- Determine who appears to be speaking
+- Track consistency across frames
+
+PHASE 4: CORRELATION & ATTRIBUTION
+- Match visual identification to transcript timestamps
+- Apply speaker labels to segments
+- Verify logical flow (Q&A pairs)
+- Resolve ambiguous segments
+
+PHASE 5: VOCABULARY CORRECTION
+- Apply domain-specific corrections
+- Verify proper nouns
+- Clean technical terminology
+
+PHASE 6: OUTPUT GENERATION
+- Generate professional DOCX
+- Deliver to target location via MCP
+
+3. FRAME EXTRACTION COMMANDS
+----------------------------
+
+SINGLE FRAME AT TIMESTAMP:
+```bash
+ffmpeg -i input.mp4 -ss 00:05:23 -frames:v 1 frame_05_23.jpg
+```
+
+FRAMES AT REGULAR INTERVALS (every 3 seconds):
+```bash
+ffmpeg -i input.mp4 -vf "fps=1/3" -q:v 2 frames/frame_%04d.jpg
+```
+
+FRAMES AT SPECIFIC TIMESTAMPS (batch):
+```bash
+# For timestamps 5, 30, 60, 90 seconds
+for ts in 5 30 60 90; do
+  ffmpeg -i input.mp4 -ss $ts -frames:v 1 frame_${ts}s.jpg
+done
+```
+
+HIGH QUALITY EXTRACTION:
+```bash
+ffmpeg -i input.mp4 -ss 00:01:00 -frames:v 1 -q:v 1 high_quality.jpg
+```
+
+4. VISUAL ANALYSIS PROMPTS
+--------------------------
+
+INITIAL FRAME ANALYSIS:
+```
+Analyse this video frame from a meeting recording:
+1. How many people are visible?
+2. Describe each person by position (left/right/centre)
+3. Who appears to be the active speaker? (camera focus, engagement)
+4. Any visual cues about speaker identity?
+```
+
+SPEAKER VERIFICATION:
+```
+At timestamp [MM:SS], the transcript shows: "[text]"
+Looking at this frame:
+1. Who appears to be speaking? (lip position, gestures, focus)
+2. Confidence level: HIGH/MEDIUM/LOW
+3. Describe the speaker by position/appearance
+```
+
+CONSISTENCY CHECK:
+```
+Compare these two frames from different timestamps:
+Frame 1 (00:05:23): [description]
+Frame 2 (00:08:45): [description]
+Are the same people visible? Is the speaker consistent with previous identification?
+```
+
+5. SAMPLING STRATEGY
+--------------------
+
+FOR INTERVIEWS (2 participants):
+| Timestamp | Purpose |
+|-----------|---------|
+| 00:00:05 | Initial identification |
+| 00:01:00 | Confirm after greeting |
+| Every 60s | Regular verification |
+| At long pauses | Potential speaker change |
+| Near end | Closing identification |
+
+FOR MEETINGS (3+ participants):
+| Timestamp | Purpose |
+|-----------|---------|
+| Start | All participants visible |
+| Every 30s | Active speaker verification |
+| After topic change | New speaker likely |
+| Q&A transitions | Speaker change points |
+
+ADAPTIVE SAMPLING:
+- If transcript shows >3 second gap â†’ extract frame
+- If transcript shows question â†’ verify questioner
+- If transcript shows "thank you" etc. â†’ verify speaker
+
+6. SPEAKER TRACKING FORMAT
+--------------------------
+
+SPEAKER PROFILE:
+```json
+{
+  "speaker_id": "SPEAKER_1",
+  "identified_as": "Frans Vermaak",
+  "position": "left side of frame",
+  "visual_cues": "dark hair, glasses, professional attire",
+  "role": "interviewer",
+  "first_seen": "00:00:05",
+  "confirmation_frames": ["00:01:00", "00:05:30", "00:12:15"]
+}
+```
+
+TRACKING LOG:
+| Timestamp | Frame | Active Speaker | Confidence | Notes |
+|-----------|-------|----------------|------------|-------|
+| 00:00:05 | frame_001 | Frans (left) | HIGH | Opens meeting |
+| 00:01:30 | frame_002 | Brendan (right) | HIGH | Responding |
+| 00:05:45 | frame_003 | Frans (left) | MEDIUM | Asking question |
+
+7. CORRELATION RULES
+--------------------
+
+RULE 1: TIMESTAMP MATCHING
+- Match frame timestamp to nearest transcript segment
+- Allow Â±2 second tolerance for matching
+- Prefer frame slightly before segment start
+
+RULE 2: SPEAKER ASSIGNMENT
+- Apply visual identification to all segments until next frame
+- Override if logical flow contradicts (Q&A mismatch)
+- Mark LOW confidence segments for review
+
+RULE 3: TRANSITION DETECTION
+- Questions typically change speaker after
+- Long pauses often indicate speaker change
+- "Thank you" / "That's right" often marks transitions
+
+RULE 4: CONFLICT RESOLUTION
+- Visual identification takes precedence
+- If conflict with logical flow, extract additional frame
+- If still ambiguous, mark with [?]
+
+8. QUALITY ASSURANCE
+--------------------
+
+VERIFICATION CHECKLIST:
+â˜ All participants identified in initial frame
+â˜ Speaker changes verified visually
+â˜ Q&A pairs correctly attributed
+â˜ No merged speaker segments
+â˜ Vocabulary corrections applied
+â˜ Timestamps accurate
+
+CONFIDENCE SCORING:
+- HIGH: Visual confirmation + logical flow match
+- MEDIUM: Visual confirmation OR logical flow
+- LOW: Neither - needs additional frame analysis
+
+================================================================================
+TOOL INTEGRATION
+================================================================================
+
+REQUIRED TOOLS:
+1. ffmpeg - Video/audio processing
+2. faster-whisper - Speech recognition
+3. Claude Vision - Frame analysis (built-in)
+4. Filesystem MCP - File access and delivery
+5. docx (Node.js) - Document generation
+
+WORKFLOW COMMANDS:
+
+```bash
+# 1. Copy video to working directory
+cp /path/to/video.mp4 /home/claude/
+
+# 2. Extract audio
+ffmpeg -i video.mp4 -vn -ar 16000 -ac 1 audio.wav
+
+# 3. Transcribe
+python3 -c "
+from faster_whisper import WhisperModel
+model = WhisperModel('base', device='cpu', compute_type='int8')
+segments, info = model.transcribe('audio.wav', beam_size=5, vad_filter=True)
+# Save segments with timestamps
+"
+
+# 4. Extract key frames
+mkdir -p frames
+ffmpeg -i video.mp4 -ss 00:00:05 -frames:v 1 frames/frame_00_05.jpg
+ffmpeg -i video.mp4 -ss 00:01:00 -frames:v 1 frames/frame_01_00.jpg
+# ... more frames at key timestamps
+
+# 5. Analyse frames with Claude vision (use view tool)
+# 6. Correlate and generate output
+# 7. Copy to target location via Filesystem MCP
+```
+
+================================================================================
+LIMITATIONS & MITIGATIONS
+================================================================================
+
+LIMITATION: Claude cannot identify named individuals
+MITIGATION: Identify by position/appearance, confirm via context
+
+LIMITATION: Low quality video frames
+MITIGATION: Extract at higher resolution, use multiple frames
+
+LIMITATION: Audio-only calls (no video)
+MITIGATION: Fall back to content-based attribution with LOW confidence
+
+LIMITATION: Multiple people in same frame position
+MITIGATION: Use voice change detection as secondary signal
+
+================================================================================
+END OF SKILL SK-019
+================================================================================

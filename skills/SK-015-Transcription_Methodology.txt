@@ -1,0 +1,312 @@
+================================================================================
+SKILL SK-015: TRANSCRIPTION METHODOLOGY
+================================================================================
+Master Prompt Dictionary v4.8
+Frans - Frans Vermaak, CTGO
+================================================================================
+
+SKILL METADATA
+--------------
+Skill ID: SK-015
+Name: Transcription Methodology
+Version: 1.0
+Created: 10 January 2026
+Tier: 2 (Persona-specific)
+Primary Persona: 015 - Bilingual Transcript Specialist
+Compatible Personas: 001, 006
+
+SKILL OVERVIEW
+--------------
+Comprehensive methodology for converting spoken audio/video content into accurate 
+written transcripts. Covers verbatim transcription techniques, speaker handling, 
+timestamp protocols, and quality assurance procedures.
+
+================================================================================
+CORE COMPETENCIES
+================================================================================
+
+1. VERBATIM TRANSCRIPTION LEVELS
+--------------------------------
+
+STRICT VERBATIM:
+Purpose: Legal, research, evidence documentation
+Includes:
+- Every utterance exactly as spoken
+- False starts: "I wasâ€” I mean, I wanted to..."
+- Fillers: "um", "uh", "like", "you know", "so", "basically"
+- Afrikaans fillers: "nÃ©", "ja-nee", "mos", "sommer"
+- Repetitions: "It's it's very important"
+- Self-corrections: "Tuesdayâ€” sorry, Wednesday"
+- Interruptions: marked with em-dash
+- Non-verbal: [laughs], [sighs], [coughs], [sniffs]
+- Emphasis: indicated by CAPS or *asterisks*
+- Elongation: "Nooo", "Sooo"
+
+CLEAN VERBATIM:
+Purpose: Business meetings, interviews, general documentation
+Removes:
+- Filler words (um, uh, like, you know)
+- False starts and stutters
+- Unnecessary repetitions
+- Throat clearing, coughs (unless significant)
+Preserves:
+- Complete sentences
+- Speaker's intended meaning
+- Natural speech patterns
+- Relevant non-verbals
+
+INTELLIGENT VERBATIM:
+Purpose: Publication, distribution, readability
+Applies:
+- Light grammatical correction
+- Sentence completion
+- Coherent paragraph structure
+- Professional formatting
+Preserves:
+- Speaker's voice and tone
+- Key phrases and terminology
+- Factual accuracy
+
+2. SPEAKER IDENTIFICATION SYSTEM
+--------------------------------
+
+KNOWN SPEAKERS:
+Format: FULL NAME [TIMESTAMP]
+Example: FRANS VERMAAK [00:01:23]
+
+UNKNOWN SPEAKERS:
+Format: SPEAKER N [TIMESTAMP]
+Assign numbers sequentially by first appearance
+Maintain consistency throughout document
+
+GENDER-IDENTIFIED UNKNOWN:
+Format: MALE SPEAKER 1 / FEMALE SPEAKER 1
+Use only when clearly identifiable
+
+ROLE-BASED (when identity unknown):
+Format: CHAIRPERSON / PRESENTER / INTERVIEWER / INTERVIEWEE
+
+SPECIAL CASES:
+- [?] - Completely unidentifiable
+- [Multiple] - Simultaneous speakers
+- [Group] - Collective response (e.g., laughter, agreement)
+- [Remote] - Phone/video participant with different audio quality
+
+3. TIMESTAMP METHODOLOGY
+------------------------
+
+BASELINE RULES:
+- Always start from 00:00 at recording beginning
+- Use consistent format throughout document
+- Round to nearest second (not milliseconds) for readability
+- Include timestamp at EVERY speaker change minimum
+
+SHORT FORMAT (under 60 minutes):
+[MM:SS] - e.g., [05:23], [45:07]
+
+LONG FORMAT (60+ minutes):
+[H:MM:SS] - e.g., [1:05:23], [2:45:07]
+
+PLACEMENT:
+Standard: After speaker name, before speech
+SPEAKER NAME [TIMESTAMP]
+"Speech content."
+
+Inline (for subtitles): Embedded in content markers
+
+4. CODE-SWITCHING HANDLING
+--------------------------
+
+DEFINITION:
+Switching between languages mid-conversation or mid-sentence.
+Common in South African bilingual contexts.
+
+PRESERVATION RULES:
+- Transcribe exactly as spoken
+- Do NOT translate
+- Do NOT indicate "should be" in other language
+- Preserve word order even if grammatically mixed
+
+TAGGING OPTIONS:
+
+No Tags (Default):
+"So the meeting is mÃ´re, and we need to prepare the documents."
+
+Inline Tags:
+"So the meeting is [AF]mÃ´re[/AF], and we need to prepare the documents."
+
+Language Markers:
+[EN] "So the meeting is" [AF] "mÃ´re" [EN] "and we need to prepare the documents."
+
+COMMON PATTERNS:
+- English sentence with Afrikaans filler: "It's important, nÃ©?"
+- Afrikaans with English technical terms: "Die software moet ge-update word."
+- Full switch: "Let me explain. Kom ek verduidelik in Afrikaans."
+
+5. AUDIO QUALITY HANDLING
+-------------------------
+
+INAUDIBLE CLASSIFICATIONS:
+
+[inaudible]
+- Cannot determine any words
+- Brief moment (under 2 seconds)
+
+[inaudible - Xs]
+- Extended inaudible section
+- Specify approximate duration
+
+[inaudible - background noise]
+- Cause identified
+
+[inaudible - crosstalk]
+- Multiple speakers causing interference
+
+UNCLEAR CLASSIFICATIONS:
+
+[unclear: "word"?]
+- Best phonetic guess
+- Question mark indicates uncertainty
+
+[unclear - sounds like "phrase"]
+- Longer uncertain section
+
+[unclear - possibly "word1" or "word2"]
+- Multiple possibilities
+
+AUDIO EVENT MARKERS:
+
+[recording starts]
+[recording ends]
+[recording paused]
+[recording resumes]
+[audio cuts out: START - END]
+[silence: Xs]
+[background music]
+[phone ringing]
+[door opens/closes]
+[papers shuffling]
+
+6. LONG-FORM TRANSCRIPTION (60+ Minutes)
+----------------------------------------
+
+CHUNKING STRATEGY:
+
+Segment Length: 15-20 minutes optimal
+Overlap: 30 seconds at boundaries for verification
+
+SEGMENT HEADER FORMAT:
+================================================================================
+SEGMENT [N] OF [TOTAL] | [START TIME - END TIME]
+Speakers: [List active speakers in segment]
+Topics: [Brief topic summary - optional]
+================================================================================
+
+CONTINUITY MARKERS:
+[...continued from Segment N]
+[continues in Segment N...]
+
+SPEAKER TRACKING:
+- Maintain master speaker list
+- Update identifications as they become known
+- Note first appearance timestamp for each speaker
+
+QUALITY CHECKPOINTS:
+- Verify speaker consistency at segment boundaries
+- Cross-reference timestamps across segments
+- Check for missing content at transitions
+
+7. OUTPUT FORMAT SPECIFICATIONS
+-------------------------------
+
+PLAIN TEXT (.txt):
+- UTF-8 encoding
+- Line break after each speaker turn
+- Timestamps in square brackets
+- No formatting
+
+WORD DOCUMENT (.docx):
+- Speaker names: Bold
+- Timestamps: Grey text, smaller font
+- New paragraph per speaker
+- Header: Meeting title, date, duration
+- Footer: Page numbers, "CONFIDENTIAL" if required
+
+SRT SUBTITLE FORMAT:
+[Sequence number]
+[Start time] --> [End time]
+[Speaker: ] Text content
+[Blank line]
+
+Timing: HH:MM:SS,mmm format
+Max characters: 42 per line
+Max lines: 2 per subtitle
+
+VTT SUBTITLE FORMAT:
+WEBVTT
+[Blank line]
+[Start time] --> [End time]
+[Text content]
+
+Timing: HH:MM:SS.mmm format
+Supports styling tags
+
+CSV FORMAT:
+Columns: Timestamp, Speaker, Text, Language, Notes
+Delimiter: Comma
+Encoding: UTF-8 with BOM
+
+JSON FORMAT:
+{
+  "metadata": {
+    "title": "",
+    "date": "",
+    "duration": "",
+    "speakers": []
+  },
+  "transcript": [
+    {
+      "timestamp": "",
+      "speaker": "",
+      "text": "",
+      "language": "",
+      "confidence": 1.0
+    }
+  ]
+}
+
+================================================================================
+QUALITY ASSURANCE PROCEDURES
+================================================================================
+
+PRE-TRANSCRIPTION:
+1. Listen to 2-minute sample from start, middle, end
+2. Assess overall audio quality (1-5 scale)
+3. Identify number of speakers
+4. Note language distribution (% each language)
+5. Identify technical/specialised terminology
+6. Confirm output requirements with client
+
+DURING TRANSCRIPTION:
+1. Mark all uncertain sections immediately
+2. Note speaker identification challenges
+3. Flag potential proper nouns for verification
+4. Track timestamp accuracy periodically
+
+POST-TRANSCRIPTION:
+1. Full spell-check (both languages)
+2. Search for common errors: "teh", "adn", double spaces
+3. Verify timestamp accuracy (5 random checks)
+4. Confirm speaker consistency
+5. Review all [inaudible] and [unclear] markers
+6. Calculate and report quality metrics
+
+QUALITY METRICS:
+- Word Error Rate (WER): Target <1%
+- Speaker Accuracy: Target >98%
+- Timestamp Accuracy: Target Â±2 seconds
+- Completion Rate: Target 100%
+
+================================================================================
+END OF SKILL SK-015
+================================================================================

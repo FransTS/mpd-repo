@@ -1,0 +1,276 @@
+================================================================================
+SKILL SK-016: AFRIKAANS LANGUAGE PROCESSING
+================================================================================
+Master Prompt Dictionary v4.8
+Frans - Frans Vermaak, CTGO
+================================================================================
+
+SKILL METADATA
+--------------
+Skill ID: SK-016
+Name: Afrikaans Language Processing
+Version: 1.0
+Created: 10 January 2026
+Tier: 2 (Persona-specific)
+Primary Persona: 015 - Bilingual Transcript Specialist
+Compatible Personas: 001, 006, 007
+
+SKILL OVERVIEW
+--------------
+Specialised linguistic processing for Afrikaans language content, including 
+dialect recognition, orthography standards, common speech patterns, and 
+handling of English-Afrikaans code-switching typical in South African contexts.
+
+================================================================================
+CORE COMPETENCIES
+================================================================================
+
+1. AFRIKAANS ORTHOGRAPHY STANDARDS
+----------------------------------
+
+DIACRITICAL MARKS:
+- Ãª - e-circumflex (e-hoedjie): sÃª, nÃª, wÃªreld
+- Ã« - e-umlaut (e-deelteken): geÃ«et, reÃ«n, koÃ«ffisiÃ«nt
+- Ã© - e-acute (e-akuut): cafÃ©, rÃ©sumÃ© (loan words)
+- Ã¨ - e-grave: used in some older texts
+- Ã´ - o-circumflex: mÃ´re, nÃ´i
+- Ã¶ - o-umlaut: koÃ¶rdinator, naÃ¯ef
+- Ã® - i-circumflex: rare, mostly proper nouns
+- Ã¯ - i-umlaut: naÃ¯ef, geÃ¯nspireer
+- Ã» - u-circumflex: rare
+- Ã¼ - u-umlaut: rare, loan words
+
+KEYBOARD INPUT:
+When transcribing without special characters available:
+- Ãª â†’ e^ or [e-circumflex]
+- Note: Always use proper characters when possible
+
+COMMON SPELLING CONSIDERATIONS:
+- "ij" vs "y": Afrikaans uses "y" (not Dutch "ij")
+- Double vowels: "ee", "oo", "aa" indicate long vowels
+- Word boundaries: Compound words often written as one word
+
+2. REGIONAL DIALECT RECOGNITION
+-------------------------------
+
+CAPE AFRIKAANS (Kaapse Afrikaans):
+Characteristics:
+- Influenced by Malay, Portuguese, Khoi languages
+- Distinctive vocabulary: "kamma" (as if), "bra" (brother)
+- Pronunciation variations
+- Often more melodic intonation
+
+Common markers:
+- "djy" instead of "jy" (you)
+- "aweh" - greeting/acknowledgment
+- "lekka" instead of "lekker"
+
+TRANSVAAL AFRIKAANS:
+Characteristics:
+- Considered "standard" Afrikaans
+- Basis for formal written Afrikaans
+- Used in media and education
+
+EASTERN CAPE / BORDER:
+Characteristics:
+- English influence more prominent
+- Distinctive pronunciation patterns
+
+FREE STATE AFRIKAANS:
+Characteristics:
+- More conservative forms
+- Agricultural terminology
+- Rural expressions
+
+NORTHERN CAPE / NAMAQUALAND:
+Characteristics:
+- Nama/Khoi influence
+- Unique vocabulary items
+- Distinctive phonology
+
+3. COMMON SPEECH PATTERNS & FILLERS
+-----------------------------------
+
+DISCOURSE MARKERS:
+- "nÃ©" / "ne" - tag question (isn't it?, right?)
+- "ja-nee" - literally "yes-no", means "well" or "indeed"
+- "mos" - emphasis particle (you know, obviously)
+- "sommer" - just, simply, for no particular reason
+- "tog" - after all, though, surely
+- "dan" - then (often as filler)
+- "nou" - now (often as filler: "nou ja")
+- "maar" - but/just (often softening)
+- "eintlik" - actually
+- "basies" - basically (from English)
+
+INTERJECTIONS:
+- "Ag" / "Ach" - oh well, expression of resignation
+- "Ai" / "Eina" - ouch, expression of pain/sympathy
+- "Sjoe" / "Tjoe" - wow, expression of surprise
+- "Haai" - hey, expression of dismay
+- "Jislaaik" - expression of surprise
+- "Yoh" - expression of amazement
+
+AFFIRMATIONS:
+- "Ja" - yes
+- "Ja-nee" - yes (emphatic)
+- "Reg" / "Reggies" - right, correct
+- "Okay" / "Orraait" - okay (anglicism)
+
+4. CODE-SWITCHING PATTERNS
+--------------------------
+
+TYPE 1 - INSERTIONAL:
+Single word/phrase insertion from other language
+"Die meeting is more important as ons gedink het."
+"We need to finaliseer this by Friday."
+
+TYPE 2 - ALTERNATIONAL:
+Full clause switching
+"Ek dink we should postpone. Dit maak meer sin."
+"Let me explain. Kom ek sÃª dit in Afrikaans."
+
+TYPE 3 - CONGRUENT LEXICALISATION:
+Shared grammatical structure
+"Ek het die document ge-email." (email â†’ ge-email)
+"Hulle moet dit update." (update used as Afrikaans verb)
+
+COMMON HYBRID FORMS:
+- ge- + English verb: ge-email, ge-update, ge-post, ge-check
+- English noun + Afrikaans plural: files â†’ "files" or "faile"
+- English adjective + Afrikaans: "Dit is so nice"
+
+TRANSCRIPTION RULES:
+1. Preserve exactly as spoken
+2. Use "ge-" prefix as spoken
+3. Do not "correct" to pure Afrikaans
+4. Do not translate
+
+5. TECHNICAL TERMINOLOGY
+------------------------
+
+BUSINESS/CORPORATE:
+| English | Common Usage |
+|---------|--------------|
+| Meeting | meeting / vergadering |
+| Report | report / verslag |
+| Budget | budget / begroting |
+| Invoice | invoice / faktuur |
+| Contract | kontrak |
+| Deadline | deadline / sperdatum |
+
+TECHNOLOGY:
+| English | Common Usage |
+|---------|--------------|
+| Computer | rekenaar |
+| Software | sagteware |
+| Email | e-pos / email |
+| File | lÃªer / file |
+| Download | aflaai / download |
+| Upload | oplaai / upload |
+
+LEGAL:
+| English | Afrikaans |
+|---------|-----------|
+| Agreement | ooreenkoms |
+| Clause | klousule |
+| Liability | aanspreeklikheid |
+| Compliance | nakoming |
+
+NOTE: In business contexts, English terms often used even in 
+predominantly Afrikaans conversation. Transcribe as spoken.
+
+6. PRONUNCIATION GUIDES (For Unclear Audio)
+-------------------------------------------
+
+COMMONLY CONFUSED SOUNDS:
+
+/x/ - "g" sound (guttural):
+- "goed" - sounds like "Ï‡oot"
+- Not like English "g" in "good"
+
+/r/ - Afrikaans "r":
+- Often trilled or uvular
+- Regional variation significant
+
+Long vs Short Vowels:
+- "man" (short a) vs "maan" (long aa) - moon
+- "ek" (short e) vs "eek" (long ee) - own
+- "son" (short o) vs "soon" (long oo) - son
+
+Similar-Sounding Words:
+- "nou" (now) vs "nÃ³Ãº" (narrow)
+- "sÃª" (say) vs "see" (sea)
+- "wat" (what) vs "weet" (know)
+
+7. PROPER NOUNS & NAMES
+-----------------------
+
+COMMON AFRIKAANS NAMES:
+Male: Johan, Pieter, Willem, Hendrik, Francois, Jacobus
+Female: Marie, Anna, Elsie, Sanette, Marietjie, Annatjie
+
+SURNAME PATTERNS:
+- van der/van den - of the
+- du/de - of
+- le - the
+- Pretorius, Botha, van Zyl, Coetzee
+
+DIMINUTIVES:
+- -tjie/-jie suffix
+- Johan â†’ Johantjie
+- Marie â†’ Marietjie
+- Pieter â†’ Pietertjie / Piet
+
+PLACE NAMES:
+- Often compound: Johannesburg, Bloemfontein
+- Dutch/Afrikaans origins
+- May differ from English pronunciation
+
+8. PUNCTUATION & FORMATTING
+---------------------------
+
+QUOTATION MARKS:
+- Standard: "dubbele aanhalingstekens"
+- Alternative: â€žGerman-style" (opening low)
+
+CURRENCY:
+- R for Rand: R100, R1 000
+- Thousands separator: space (R1 000) or none (R1000)
+
+DATES:
+- Standard: DD/MM/YYYY or DD-MM-YYYY
+- Written: 10 Januarie 2026
+
+TIME:
+- 24-hour format common: 14:30
+- Or with h: 14h30
+
+NUMBERS:
+- Decimal: comma (3,5 not 3.5)
+- Thousands: space (1 000 not 1,000)
+
+================================================================================
+QUALITY ASSURANCE - AFRIKAANS SPECIFIC
+================================================================================
+
+SPELL-CHECK CONSIDERATIONS:
+- Enable Afrikaans dictionary
+- Check diacritical marks present
+- Verify compound word boundaries
+- Cross-check proper nouns
+
+COMMON ERRORS TO WATCH:
+- "dis" vs "dit is" - both acceptable
+- "n" vs "'n" - the 'n (article) needs apostrophe
+- Word boundaries in compounds
+- Diacritical mark placement
+
+VERIFICATION RESOURCES:
+- Afrikaanse Woordelys en SpelreÃ«ls (AWS)
+- Pharos Afrikaans-Engels Woordeboek
+- Taalkommissie guidelines
+
+================================================================================
+END OF SKILL SK-016
+================================================================================
