@@ -1,20 +1,21 @@
-# Frans Skill Registry v2.5
+# Frans Skill Registry v2.6
 
 | Field | Value |
 |-------|-------|
 | **Document ID** | FRANS-SKILL-REG-2026-008 |
-| **Version** | 2.5 |
-| **Last Updated** | 19 January 2026 \| SAST (UTC+2) |
+| **Version** | 2.6 |
+| **Last Updated** | 26 January 2026 \| SAST (UTC+2) |
 | **Owner** | Frans Vermaak (CTGO, LarcAI) |
 | **Compatible With** | Frans Master Prompts v5.1 |
 
 ---
 
-> **NEW in v2.5:**
-> - LAR-030 Document Review Methodology (Persona 018 primary skill)
-> - Editorial QA capabilities (spelling, grammar, formatting, facts, compliance)
-> - Requirements gap analysis methodology
+> **NEW in v2.6:**
+> - LAR-031 Development Testing Protocol (Enterprise-grade code verification)
+> - 8-phase verification gate system
+> - TypeScript/React/Node.js build quality assurance
 >
+> **v2.5:** LAR-030 Document Review Methodology, Editorial QA
 > **v2.4:** LAR-027 RLM Framework, LAR-028 Long-Context Processing, LAR-029 Complex Document Analysis
 > **v2.3:** LAR-025 Ralph Loop, TDP-001 Tool Discovery
 > **v2.2:** LAR-024 Memory Integration, MEM-001 Memory Protocol
@@ -33,6 +34,7 @@
 | Memory | `"save to memory"`, `"remember this"` |
 | RLM Processing | `"analyse complex document"`, `"due diligence"` |
 | **Document Review** | `"review this document"`, `"expert editor"` |
+| **Dev Testing** | `"code change"`, `"implement feature"`, `"fix bug"` |
 
 ---
 
@@ -49,6 +51,7 @@
 | LAR-013 | error-recovery | on failure | Failure handling |
 | LAR-024 | memory-integration | automatic | Session persistence |
 | LAR-028 | long-context-processing | automatic | Context management |
+| **LAR-031** | **development-testing** | **code changes** | **Build verification gates** |
 
 ### Tier 2: Domain Skills (On-Demand)
 
@@ -70,7 +73,8 @@
 | LAR-025 | ralph-loop | "Ralph Loop", "fresh context", "iterative" |
 | LAR-027 | rlm-framework | "complex document", "due diligence" |
 | LAR-029 | complex-document-analysis | "multi-document", "document suite" |
-| **LAR-030** | **document-review** | **"review document", "expert editor", "proofread", "fact check"** |
+| LAR-030 | document-review | "review document", "expert editor", "proofread", "fact check" |
+| **LAR-031** | **development-testing** | **"code change", "implement feature", "fix bug", TypeScript/React tasks** |
 
 ### Tier 3: Specialist Skills
 
@@ -131,8 +135,8 @@ ISSUE SEVERITY:
 | 003 | Market Research | research, data-analysis, rlm-framework |
 | 004 | Sales Enablement | sales-playbook |
 | 008 | Legal Expert | contract-analysis v2.0, rlm-framework |
-| 009 | Software Architect | architecture, ralph-loop, rlm-framework |
-| 010 | The Architect | routing, batch-processing, memory, ralph-loop |
+| 009 | Software Architect | architecture, ralph-loop, rlm-framework, **development-testing** |
+| 010 | The Architect | routing, batch-processing, memory, ralph-loop, **development-testing** |
 | 012 | Prompt Engineer | prompt-engineering, ralph-loop |
 | 013 | Authenticity Reviewer | authenticity-check, self-assessment |
 | 015 | Transcript Specialist | SK-015, SK-018, batch-processing |
@@ -168,7 +172,8 @@ ISSUE SEVERITY:
 
 | Version | Date | Changes |
 |---------|------|---------|
-| **2.5** | **19 Jan 2026** | **LAR-030 document-review, Persona 018 integration** |
+| **2.6** | **26 Jan 2026** | **LAR-031 development-testing-protocol, 8-phase verification gates** |
+| 2.5 | 19 Jan 2026 | LAR-030 document-review, Persona 018 integration |
 | 2.4 | 18 Jan 2026 | LAR-027/028/029 RLM skills, Persona 017 |
 | 2.3 | 17 Jan 2026 | LAR-025 ralph-loop, PR-018, TDP-001 integration |
 | 2.2 | 15 Jan 2026 | LAR-024 memory-integration, MEM-001 |
