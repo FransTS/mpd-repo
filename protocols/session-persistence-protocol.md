@@ -1,12 +1,13 @@
-# Session Persistence Protocol v1.0
+# Session Persistence Protocol v1.2
 
 ## Metadata
 
 | Field | Value |
 |-------|-------|
 | **Protocol ID** | SES-001 |
-| **Version** | 1.0 |
+| **Version** | 1.2 |
 | **Created** | 15 January 2026 |
+| **Updated** | 28 January 2026 |
 | **Owner** | Frans Vermaak (CTGO, LarcAI) |
 | **Priority** | HIGH - Prevents work loss from context limits |
 
@@ -43,11 +44,27 @@ G:\My Drive\Shared_Download\AI_Folder\Memory\
 
 ## Checkpoint System
 
+### CRITICAL: Never Restart From Scratch
+
+```
+⚠️ MANDATORY RULE (Added 28 Jan 2026)
+
+WHEN a multi-step task is interrupted, fails, or session breaks:
+1. NEVER restart the task from the beginning
+2. ALWAYS check for existing checkpoints FIRST
+3. READ the last checkpoint file
+4. RESUME from the last completed item
+5. INFORM user: "Resuming from item X of Y"
+
+VIOLATION of this rule wastes user time and is unacceptable.
+```
+
 ### Checkpoint Triggers (Auto-Save)
 
 | Trigger | Action |
 |---------|--------|
 | Every 3-5 tool calls | Save progress checkpoint |
+| Every 3-5 items in bulk task | Save progress to checkpoint file |
 | After major milestone | Save named checkpoint |
 | Before risky operation | Save safety checkpoint |
 | User says "checkpoint" | Immediate checkpoint |
@@ -307,12 +324,62 @@ all_personas:
 
 ---
 
+## Failure Recovery Protocol
+
+### On Task Interruption/Failure
+
+```
+STEP 1: Check for checkpoint
+  - READ: cache/checkpoints/[task-id]/
+  - READ: active_task.md
+  - IDENTIFY: Last completed item/step
+
+STEP 2: Report to user
+  - "Found checkpoint at item X of Y"
+  - "Resuming from [last completed]"
+
+STEP 3: Resume (NOT restart)
+  - Continue from next incomplete item
+  - DO NOT repeat completed work
+
+NEVER:
+  - Start from item 1 if checkpoint exists
+  - Ask user "should I start again?"
+  - Ignore previous progress
+```
+
+### Bulk Processing Checkpoint Format
+
+```markdown
+# Bulk Task Checkpoint
+**Task:** [e.g., Catalogue 19 images]
+**Updated:** [timestamp]
+**Progress:** X of Y complete
+
+## Completed Items
+| Item | Status | Result/Notes |
+|------|--------|-------------|
+| 1.png | ✅ | Semantic Framework diagram |
+| 2.png | ✅ | Kobliat features - 5 modules |
+| 3.png | ✅ | AIForged full platform |
+...
+
+## Next Item
+[First incomplete item]
+
+## Resume Command
+Continue from item [X+1]
+```
+
+---
+
 ## Version History
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.2 | 28 January 2026 | Added CRITICAL never-restart rule, failure recovery protocol, bulk processing checkpoint format |
 | 1.0 | 15 January 2026 | Initial Session Persistence Protocol |
 
 ---
 
-*Frans Session Persistence Protocol v1.0*
+*Frans Session Persistence Protocol v1.2*

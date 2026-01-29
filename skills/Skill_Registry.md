@@ -1,41 +1,24 @@
-# Frans Skill Registry v2.7
+# Frans Skill Registry v2.6
 
 | Field | Value |
 |-------|-------|
-| **Document ID** | FRANS-SKILL-REG-2026-009 |
-| **Version** | 2.7 |
-| **Last Updated** | 28 January 2026 \| SAST (UTC+2) |
+| **Document ID** | FRANS-SKILL-REG-2026-008 |
+| **Version** | 2.6 |
+| **Last Updated** | 26 January 2026 \| SAST (UTC+2) |
 | **Owner** | Frans Vermaak (CTGO, LarcAI) |
-| **Compatible With** | Frans Master Prompts v5.3 |
+| **Compatible With** | Frans Master Prompts v5.1 |
 
 ---
 
-> **NEW in v2.7:**
-> - SK-024 Excel Mastery (comprehensive Excel expertise)
-> - SK-025 Financial Model Design (model architecture best practices)
-> - LAR-032 Quotation Validation (model verification)
-> - PR-022 Financial Model Audit Protocol
-> - **MEM-001 v2.0 Project Isolation now MANDATORY**
-> - Global Protocols v3.5 integration
+> **NEW in v2.6:**
+> - LAR-031 Development Testing Protocol (Enterprise-grade code verification)
+> - 8-phase verification gate system
+> - TypeScript/React/Node.js build quality assurance
 >
-> **v2.6:** LAR-031 Development Testing Protocol
-> **v2.5:** LAR-030 Document Review Methodology
-> **v2.4:** LAR-027 RLM Framework, LAR-028/029
-
----
-
-## CRITICAL: Memory Protocol v2.0
-
-**ALL SKILLS MUST RESPECT PROJECT ISOLATION:**
-```
-Memory path: Memory/Projects/{PROJECT_ID}/
-├── session_handoff.md    (THIS PROJECT ONLY)
-├── active_task.md        (THIS PROJECT ONLY)
-└── cache/                (THIS PROJECT ONLY)
-
-⚠️ NEVER write to Memory/Shared/ for session state
-⚠️ NEVER access other project folders
-```
+> **v2.5:** LAR-030 Document Review Methodology, Editorial QA
+> **v2.4:** LAR-027 RLM Framework, LAR-028 Long-Context Processing, LAR-029 Complex Document Analysis
+> **v2.3:** LAR-025 Ralph Loop, TDP-001 Tool Discovery
+> **v2.2:** LAR-024 Memory Integration, MEM-001 Memory Protocol
 
 ---
 
@@ -50,9 +33,8 @@ Memory path: Memory/Projects/{PROJECT_ID}/
 | Batch processing | `"batch process"`, `"checkpoint"` |
 | Memory | `"save to memory"`, `"remember this"` |
 | RLM Processing | `"analyse complex document"`, `"due diligence"` |
-| Document Review | `"review this document"`, `"expert editor"` |
-| Dev Testing | `"code change"`, `"implement feature"` |
-| **Financial Model** | `"quotation model"`, `"audit spreadsheet"`, `"Excel model"` |
+| **Document Review** | `"review this document"`, `"expert editor"` |
+| **Dev Testing** | `"code change"`, `"implement feature"`, `"fix bug"` |
 
 ---
 
@@ -67,16 +49,16 @@ Memory path: Memory/Projects/{PROJECT_ID}/
 | LAR-007 | self-assessment | before delivery | Quality check |
 | LAR-008 | escalation-protocol | "proceed or confirm" | User confirmation |
 | LAR-013 | error-recovery | on failure | Failure handling |
-| LAR-024 | memory-integration | automatic | Session persistence **(v2.0 project isolation)** |
+| LAR-024 | memory-integration | automatic | Session persistence |
 | LAR-028 | long-context-processing | automatic | Context management |
-| LAR-031 | development-testing | code changes | Build verification gates |
+| **LAR-031** | **development-testing** | **code changes** | **Build verification gates** |
 
 ### Tier 2: Domain Skills (On-Demand)
 
 | ID | Name | Triggers |
 |----|------|----------|
 | LAR-001 | research-protocol | "deep research" |
-| LAR-002 | contract-analysis | "review contract" (RLM-enhanced) |
+| LAR-002 | contract-analysis | "review contract" **(v2.0 RLM-enhanced)** |
 | LAR-003 | prompt-engineering | "create prompt" |
 | LAR-004 | sales-playbook | "lighthouse", "workshop" |
 | LAR-005 | email-mastery | "draft email" |
@@ -88,12 +70,11 @@ Memory path: Memory/Projects/{PROJECT_ID}/
 | LAR-021 | authenticity-check | "humanize", "AI check" |
 | LAR-022 | mcp-setup-guide | "setup mcp" |
 | LAR-023 | batch-processing | "batch process", "checkpoint" |
-| LAR-025 | ralph-loop | "Ralph Loop", "fresh context" |
+| LAR-025 | ralph-loop | "Ralph Loop", "fresh context", "iterative" |
 | LAR-027 | rlm-framework | "complex document", "due diligence" |
 | LAR-029 | complex-document-analysis | "multi-document", "document suite" |
-| LAR-030 | document-review | "review document", "expert editor" |
-| LAR-031 | development-testing | "code change", "implement feature" |
-| **LAR-032** | **quotation-validation** | **"validate quotation", "audit model", "check calculations"** |
+| LAR-030 | document-review | "review document", "expert editor", "proofread", "fact check" |
+| **LAR-031** | **development-testing** | **"code change", "implement feature", "fix bug", TypeScript/React tasks** |
 
 ### Tier 3: Specialist Skills
 
@@ -104,49 +85,30 @@ Memory path: Memory/Projects/{PROJECT_ID}/
 | SK-017 | Speaker Diarisation | Audio |
 | SK-018 | Domain Vocabulary | Terminology |
 | SK-019 | Multimodal Analysis | Media |
-| SK-020 | Scripture Lookup | Faith |
-| SK-021 | Devotional Generator | Faith |
-| SK-022 | UiPath Technical | RPA |
-| SK-023 | UiPath Licensing | RPA |
-| **SK-024** | **Excel Mastery** | **Finance/Excel** |
-| **SK-025** | **Financial Model Design** | **Finance/Modelling** |
 
 ---
 
-## Financial Modelling Quick Reference
+## LAR-030 Document Review Quick Reference
 
 ```
-PERSONA 021 CAPABILITIES:
+REVIEW CATEGORIES:
+├── LQ: Language Quality (spelling, grammar, punctuation, syntax)
+├── DF: Design & Formatting (typography, layout, headings, tables)
+├── FV: Fact Verification (numbers, dates, claims, references)
+├── RC: Requirements Compliance (gap analysis, mapping)
+└── SC: Style Consistency (tone, voice, terminology)
 
-EXCEL MASTERY (SK-024):
-├── Advanced formulas: XLOOKUP, INDEX/MATCH, SUMPRODUCT
-├── Financial functions: NPV, IRR, PMT, FV, PV
-├── Power Query: Data transformation, M language
-├── Power Pivot: DAX measures, data model
-├── Dynamic arrays: FILTER, SORT, UNIQUE, SEQUENCE
-└── Performance optimisation
+REVIEW DEPTHS:
+├── Quick: LQ basics only (5-10 min)
+├── Standard: LQ + DF + key facts (15-30 min)
+├── Deep: All categories + compliance (30-60 min)
+└── Forensic: Everything + cross-reference (60+ min)
 
-MODEL DESIGN (SK-025):
-├── Three-layer architecture (Input/Calculation/Output)
-├── Professional formatting standards
-├── Dashboard design principles
-├── Version control standards
-└── Documentation requirements
-
-QUOTATION VALIDATION (LAR-032):
-├── Structural audit: Input isolation, formula hygiene
-├── Calculation verification: Formula accuracy, aggregations
-├── Pricing logic: Rate cards, discounts, taxes
-├── Boundary testing: Zero, min, max, edge cases
-└── Consistency checks: Cross-sheet, units, terminology
-
-MODEL AUDIT PROTOCOL (PR-022):
-├── Phase 1: Intake (understand objectives)
-├── Phase 2: Mapping (document architecture)
-├── Phase 3: Formula audit (verify accuracy)
-├── Phase 4: Stress testing (boundary conditions)
-├── Phase 5: Reporting (findings and recommendations)
-└── Phase 6: Sign-off (pass/conditional/fail)
+ISSUE SEVERITY:
+├── Critical: Must fix before submission
+├── High: Should fix (significant impact)
+├── Medium: Recommended (noticeable)
+└── Low: Consider (polish)
 ```
 
 ---
@@ -156,14 +118,11 @@ MODEL AUDIT PROTOCOL (PR-022):
 | ID | Name | Purpose |
 |----|------|---------|
 | TDP-001 | Tool Discovery Protocol | Dynamic mcpl tool access |
-| **MEM-001 v2.0** | **Memory Protocol** | **Project-isolated session persistence** |
-| SES-001 v1.1 | Session Persistence | Checkpoint management with project isolation |
+| MEM-001 | Memory Protocol | Session persistence |
+| SES-001 | Session Persistence | Checkpoint management |
 | PR-017 | Long Complex Task Execution | Multi-step workflows |
 | PR-018 | Ralph Loop Protocol | Iterative fresh-context execution |
 | PR-019 | RLM Protocol | Complex document processing |
-| PR-020 | Spiritual Counsel Protocol | Faith-based guidance |
-| PR-021 | UiPath Implementation | RPA deployment |
-| **PR-022** | **Financial Model Audit** | **Systematic model validation** |
 
 ---
 
@@ -176,17 +135,36 @@ MODEL AUDIT PROTOCOL (PR-022):
 | 003 | Market Research | research, data-analysis, rlm-framework |
 | 004 | Sales Enablement | sales-playbook |
 | 008 | Legal Expert | contract-analysis v2.0, rlm-framework |
-| 009 | Software Architect | architecture, ralph-loop, rlm-framework, development-testing |
-| 010 | The Architect | routing, batch-processing, memory, ralph-loop, development-testing |
+| 009 | Software Architect | architecture, ralph-loop, rlm-framework, **development-testing** |
+| 010 | The Architect | routing, batch-processing, memory, ralph-loop, **development-testing** |
 | 012 | Prompt Engineer | prompt-engineering, ralph-loop |
 | 013 | Authenticity Reviewer | authenticity-check, self-assessment |
 | 015 | Transcript Specialist | SK-015, SK-018, batch-processing |
 | 017 | Complex Document Analyst | rlm-framework, complex-document-analysis |
-| 018 | Expert Document Editor | document-review, authenticity-check, self-assessment |
-| 019 | Biblical Shepherd | SK-020, SK-021, PR-020 |
-| 020 | UiPath Specialist | SK-022, SK-023, PR-021 |
-| **021** | **Financial Modelling Expert** | **SK-024, SK-025, LAR-032, PR-022, LAR-009** |
-| **ALL** | **All Personas** | **TDP-001, LAR-024 (MEM-001 v2.0), LAR-028** |
+| **018** | **Expert Document Editor** | **document-review, authenticity-check, self-assessment, knowledge-synthesis** |
+| **ALL** | **All Personas** | TDP-001, memory-integration, long-context-processing |
+
+---
+
+## QA Skill Matrix
+
+| Skill | Focus | Primary Persona |
+|-------|-------|-----------------|
+| LAR-007 | Self-assessment (output quality) | All |
+| LAR-021 | AI authenticity check | 013 |
+| LAR-029 | Complex document understanding | 017 |
+| **LAR-030** | **Editorial review (language, facts, compliance)** | **018** |
+
+---
+
+## Document Workflow Skills
+
+| Phase | Skill | Persona |
+|-------|-------|---------|
+| **Create** | (various by type) | 005, 006 |
+| **Analyse** | LAR-027, LAR-029 | 017 |
+| **Review/Edit** | **LAR-030** | **018** |
+| **Authenticity** | LAR-021 | 013 |
 
 ---
 
@@ -194,13 +172,14 @@ MODEL AUDIT PROTOCOL (PR-022):
 
 | Version | Date | Changes |
 |---------|------|---------|
-| **2.7** | **28 Jan 2026** | **SK-024, SK-025, LAR-032, PR-022, MEM-001 v2.0 integration** |
-| 2.6 | 26 Jan 2026 | LAR-031 development-testing-protocol |
-| 2.5 | 19 Jan 2026 | LAR-030 document-review |
-| 2.4 | 18 Jan 2026 | LAR-027/028/029 RLM skills |
-| 2.3 | 17 Jan 2026 | LAR-025 ralph-loop, TDP-001 |
-| 2.2 | 15 Jan 2026 | LAR-024 memory-integration |
+| **2.6** | **26 Jan 2026** | **LAR-031 development-testing-protocol, 8-phase verification gates** |
+| 2.5 | 19 Jan 2026 | LAR-030 document-review, Persona 018 integration |
+| 2.4 | 18 Jan 2026 | LAR-027/028/029 RLM skills, Persona 017 |
+| 2.3 | 17 Jan 2026 | LAR-025 ralph-loop, PR-018, TDP-001 integration |
+| 2.2 | 15 Jan 2026 | LAR-024 memory-integration, MEM-001 |
+| 2.1 | 14 Jan 2026 | LAR-004 sales-playbook v2.0 |
+| 2.0 | 12 Jan 2026 | LAR-023 batch-processing, PR-017 |
 
 ---
 
-*Frans Skill Registry v2.7 | Memory Protocol v2.0 | 21 Personas | 36 Skills*
+*Frans Skill Registry v2.5 | Compatible with Frans Master Prompts v5.1*

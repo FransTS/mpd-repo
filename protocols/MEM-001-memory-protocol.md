@@ -1,4 +1,4 @@
-# Memory Protocol v2.0 (MEM-001)
+# Claude Local Memory Protocol v2.0
 
 ## Metadata
 
@@ -9,7 +9,7 @@
 | **Created** | 13 January 2026 |
 | **Updated** | 28 January 2026 |
 | **Owner** | Frans Vermaak (CTGO, LarcAI) |
-| **Compatible With** | Master Prompts v5.3+, Skill Registry v2.7+ |
+| **Compatible With** | Master Prompts v5.0+, Skill Registry v2.4+ |
 
 ---
 
@@ -24,15 +24,17 @@ Provide persistent memory across Claude sessions using local filesystem storage 
 ### Rule 1: Every Session Has a Project Scope
 - Each Claude chat operates within a specific **PROJECT_ID**
 - Project memory is isolated in `Memory/Projects/{PROJECT_ID}/`
-- NEVER read/write session state from `Memory/Shared/` (deprecated)
+- NEVER read/write session state from `Memory/Shared/` (deprecated for session state)
 
 ### Rule 2: Project Detection (Mandatory First Step)
+Claude MUST detect the project scope at session start:
+
 ```
-1. CHECK session starter for PROJECT_ID
+1. CHECK user's session starter prompt for PROJECT_ID
 2. IF explicitly stated → Use that PROJECT_ID
 3. IF not stated → Ask user: "Which project is this session for?"
-4. VERIFY project folder exists
-5. IF missing → Create from _Template
+4. VERIFY project folder exists in Memory/Projects/{PROJECT_ID}/
+5. IF folder missing → Create from _Template
 ```
 
 ### Rule 3: Path Isolation
@@ -45,71 +47,293 @@ Provide persistent memory across Claude sessions using local filesystem storage 
 ### Rule 4: No Cross-Project Access
 - NEVER read another project's session_handoff.md or active_task.md
 - NEVER write to Shared/ folder for session state
+- Shared/ folder is DEPRECATED for session management
 
 ---
 
 ## Folder Structure v2.0
 
 ```
-Memory/
-├── MEMORY_PROTOCOL.md
-├── _Global/
-│   ├── project_index.md
-│   └── session_starter_prompt.md
-├── Projects/
-│   ├── _Template/
-│   ├── MPD_Development/
-│   ├── Mascom_RFP/
-│   ├── Transcription_Jobs/
+G:\My Drive\Shared_Download\AI_Folder\Memory\
+├── MEMORY_PROTOCOL.md          # This file
+│
+├── _Global/                    # Cross-project index only
+│   ├── project_index.md        # List of all projects
+│   └── session_starter_prompt.md  # Template for new projects
+│
+├── Projects/                   # PROJECT-ISOLATED MEMORY
+│   ├── _Template/              # Template for new projects
+│   │   ├── project_config.md
+│   │   ├── session_handoff.md
+│   │   ├── active_task.md
+│   │   └── cache/
+│   │       ├── checkpoints/
+│   │       └── intermediate/
+│   │
+│   ├── MPD_Development/        # Example: MPD project
+│   │   ├── project_config.md   # Project-specific config
+│   │   ├── session_handoff.md  # Project session state
+│   │   ├── active_task.md      # Project active task
+│   │   └── cache/
+│   │       ├── checkpoints/    # Project checkpoints
+│   │       └── intermediate/   # Project intermediate files
+│   │
+│   ├── Mascom_RFP/            # Example: Mascom project
+│   │   └── [same structure]
+│   │
 │   └── [Other Projects]/
-├── PC/
-├── Laptop/
-└── Shared/  ← DEPRECATED
+│
+├── PC/                         # Device-specific (temp only)
+│   ├── session_log.md          # Device session log
+│   └── cache/temp/             # Temporary device cache
+│
+├── Laptop/                     # Device-specific (temp only)
+│   ├── session_log.md
+│   └── cache/temp/
+│
+└── Shared/                     # DEPRECATED for session state
+    └── [Legacy files - READ ONLY, do not update]
 ```
 
 ---
 
-## Session Start Protocol
+## Session Start Protocol v2.0
 
 ```
-1. IDENTIFY PROJECT SCOPE → PROJECT_ID
-2. SET PROJECT_PATH = Memory/Projects/{PROJECT_ID}/
-3. READ {PROJECT_PATH}/session_handoff.md
-4. READ {PROJECT_PATH}/active_task.md
-5. CHECK for resumable task
-6. ACKNOWLEDGE context
+STEP 1: DETECT PROJECT SCOPE (MANDATORY)
+  ┌────────────────────────────────────────────┐
+  │ Check session starter for PROJECT_ID       │
+  │ OR ask user: "Which project is this for?"  │
+  │ SET: PROJECT_PATH = Memory/Projects/{ID}/  │
+  └────────────────────────────────────────────┘
+
+STEP 2: DETECT DEVICE
+  ┌────────────────────────────────────────────┐
+  │ $env:USERPROFILE contains "Frans Vermaak"  │
+  │   → DEVICE = LAPTOP                        │
+  │ $env:USERPROFILE contains "User"           │
+  │   → DEVICE = PC                            │
+  │ No Filesystem MCP                          │
+  │   → DEVICE = MOBILE                        │
+  └────────────────────────────────────────────┘
+
+STEP 3: LOAD PROJECT MEMORY
+  ┌────────────────────────────────────────────┐
+  │ READ: {PROJECT_PATH}/session_handoff.md    │
+  │ READ: {PROJECT_PATH}/active_task.md        │
+  │ READ: {PROJECT_PATH}/project_config.md     │
+  └────────────────────────────────────────────┘
+
+STEP 4: CHECK FOR RESUMABLE TASK
+  ┌────────────────────────────────────────────┐
+  │ IF active_task.md shows IN_PROGRESS:       │
+  │   → Load latest checkpoint                 │
+  │   → Offer to resume                        │
+  └────────────────────────────────────────────┘
+
+STEP 5: ACKNOWLEDGE CONTEXT
+  ┌────────────────────────────────────────────┐
+  │ "Project: {PROJECT_ID}"                    │
+  │ "Device: {DEVICE}"                         │
+  │ "Last session: {summary}"                  │
+  └────────────────────────────────────────────┘
 ```
 
 ---
 
-## Session End Protocol
+## Session End Protocol v2.0
 
 ```
-1. WRITE {PROJECT_PATH}/session_handoff.md
-2. WRITE {PROJECT_PATH}/active_task.md
-3. SAVE checkpoints to {PROJECT_PATH}/cache/
-4. OPTIONAL: Append device log
+STEP 1: UPDATE PROJECT MEMORY (PROJECT SCOPE ONLY)
+  ┌────────────────────────────────────────────┐
+  │ WRITE: {PROJECT_PATH}/session_handoff.md   │
+  │   - Date/time (SAST)                       │
+  │   - Device used                            │
+  │   - Key activities                         │
+  │   - Pending items                          │
+  │   - Next steps                             │
+  └────────────────────────────────────────────┘
+
+STEP 2: UPDATE TASK STATUS
+  ┌────────────────────────────────────────────┐
+  │ WRITE: {PROJECT_PATH}/active_task.md       │
+  │   - IDLE / IN_PROGRESS / COMPLETED         │
+  │   - Checkpoint reference if applicable     │
+  └────────────────────────────────────────────┘
+
+STEP 3: CACHE INTERMEDIATE RESULTS
+  ┌────────────────────────────────────────────┐
+  │ WRITE TO: {PROJECT_PATH}/cache/            │
+  │   - checkpoints/                           │
+  │   - intermediate/                          │
+  └────────────────────────────────────────────┘
+
+STEP 4: UPDATE DEVICE LOG (OPTIONAL)
+  ┌────────────────────────────────────────────┐
+  │ APPEND: Memory/{DEVICE}/session_log.md     │
+  │   - Brief entry only                       │
+  └────────────────────────────────────────────┘
+```
+
+---
+
+## File Formats v2.0
+
+### project_config.md (NEW - Required)
+```markdown
+# Project Configuration
+
+**Project ID:** {PROJECT_ID}
+**Project Name:** {Display Name}
+**Created:** {Date}
+**Owner:** Frans Vermaak
+
+## Scope
+{Brief description of project scope}
+
+## Related Personas
+- {Persona IDs relevant to this project}
+
+## Key Paths
+| Resource | Path |
+|----------|------|
+| Working Directory | {path} |
+| Output Directory | {path} |
+
+## Active Protocols
+- {List of protocols active for this project}
+```
+
+### session_handoff.md (Project-Scoped)
+```markdown
+# Session Handoff - {PROJECT_ID}
+## Last Updated: {DD Month YYYY} | {HH:MM} SAST
+
+---
+
+## Current State: {Version/Status}
+
+### This Session
+{Activities completed}
+
+### Previous Session
+{Previous activities for context}
+
+---
+
+## Pending
+- [ ] {Pending items}
+
+## Next Steps
+- {Recommended next actions}
+
+---
+
+## Context for Next Session
+{Important context notes}
+```
+
+### active_task.md (Project-Scoped)
+```markdown
+# Active Task - {PROJECT_ID}
+
+## Status: {IDLE | IN_PROGRESS | COMPLETED}
+
+## Task Details
+**Task:** {Description}
+**Started:** {DateTime}
+**Checkpoint:** {checkpoint reference or "N/A"}
+
+## Progress
+{Progress notes}
+
+## Resume Instructions
+{How to continue if interrupted}
+```
+
+---
+
+## Project Index (_Global/project_index.md)
+
+```markdown
+# Project Index
+
+| PROJECT_ID | Display Name | Status | Last Active |
+|------------|--------------|--------|-------------|
+| MPD_Development | Master Prompt Dictionary | Active | {date} |
+| Mascom_RFP | Mascom Botswana RFP | Active | {date} |
+| Transcription_Jobs | Transcription Projects | Active | {date} |
+| TransBaviaans_Training | TransBaviaans Training | Active | {date} |
+```
+
+---
+
+## Creating a New Project
+
+```
+1. CREATE folder: Memory/Projects/{PROJECT_ID}/
+2. COPY structure from Memory/Projects/_Template/
+3. EDIT project_config.md with project details
+4. ADD to _Global/project_index.md
+5. CREATE session starter prompt if needed
 ```
 
 ---
 
 ## Migration from v1.x
 
+### Deprecated Paths (DO NOT USE)
 | Old Path | New Path |
 |----------|----------|
 | `Shared/session_handoff.md` | `Projects/{ID}/session_handoff.md` |
 | `Shared/active_task.md` | `Projects/{ID}/active_task.md` |
-| `Shared/cache/` | `Projects/{ID}/cache/` |
+| `Shared/cache/checkpoints/` | `Projects/{ID}/cache/checkpoints/` |
+| `Shared/tasks.md` | REMOVED (use active_task.md per project) |
+| `Shared/decisions.md` | `Projects/{ID}/decisions.md` (optional) |
+
+### Migration Steps
+1. Files in `Shared/` are frozen (read-only legacy)
+2. New sessions MUST use `Projects/{ID}/` paths
+3. Project-specific memory takes precedence
 
 ---
 
-## Changelog
+## Session Starter Template
+
+For each project, create a session starter with:
+
+```markdown
+You have MCP filesystem access. On session start:
+
+1. DETECT DEVICE:
+   - $env:USERPROFILE contains "Frans Vermaak" → LAPTOP
+   - $env:USERPROFILE contains "User" → PC
+
+2. LOAD PROJECT MEMORY:
+   Project: {PROJECT_ID}
+   Path: G:\My Drive\Shared_Download\AI_Folder\Memory\Projects\{PROJECT_ID}\
+   
+   Read: session_handoff.md, active_task.md
+
+3. APPLY SES-001 (Session Persistence):
+   - Checkpoint every 3-5 tool operations
+   - Cache large outputs to cache/intermediate/
+   - Update active_task.md for complex tasks
+
+4. IF active_task shows IN_PROGRESS:
+   - Load latest checkpoint
+   - Offer to resume
+```
+
+---
+
+## Version History
 
 | Version | Date | Changes |
 |---------|------|---------|
-| **2.0** | **28 Jan 2026** | **Project isolation, deprecated Shared** |
-| 1.1 | 15 Jan 2026 | Caching system |
-| 1.0 | 13 Jan 2026 | Initial |
+| **2.0** | **28 January 2026** | **Project isolation, deprecated Shared session state, mandatory PROJECT_ID** |
+| 1.1 | 15 January 2026 | Added caching system |
+| 1.0 | 13 January 2026 | Initial protocol |
 
 ---
 
