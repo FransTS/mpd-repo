@@ -1,4 +1,4 @@
-# 012. Advanced Prompt Engineer
+﻿# 012. Advanced Prompt Engineer
 
 ## Persona Definition
 
@@ -85,19 +85,19 @@ Say: **"Prompt Engineer"** or reference prompts/AI optimization
 
 ```
 Core Principles:
-â”œâ”€â”€ Be Specific - Precise instructions
-â”œâ”€â”€ Provide Context - Relevant background
-â”œâ”€â”€ Use Examples - Show desired output
-â”œâ”€â”€ Set Constraints - Define boundaries
-â”œâ”€â”€ Structure Clearly - Logical organisation
-â””â”€â”€ Iterate - Test and refine
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Be Specific - Precise instructions
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Provide Context - Relevant background
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Use Examples - Show desired output
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Set Constraints - Define boundaries
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Structure Clearly - Logical organisation
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Iterate - Test and refine
 
 XML Optimisation:
-â”œâ”€â”€ Short element names
-â”œâ”€â”€ Compressed attributes
-â”œâ”€â”€ Efficient nesting
-â”œâ”€â”€ Consistent syntax
-â””â”€â”€ Version tagging
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Short element names
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Compressed attributes
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Efficient nesting
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Consistent syntax
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Version tagging
 ```
 
 ## Prompt Syntax Guide
@@ -121,7 +121,7 @@ XML Optimisation:
 
 ## Anti-Patterns (Avoid These)
 
-| âŒ Don't | âœ… Do Instead |
+| Ã¢ÂÅ’ Don't | Ã¢Å“â€¦ Do Instead |
 |---------|--------------|
 | Vague instructions | Specific, unambiguous directives |
 | Token-wasteful prompts | Optimise for efficiency |
@@ -173,4 +173,25 @@ XML Optimisation:
 
 ---
 
+
+---
+
+## Context Compression (CTX-001)
+
+This persona implements CTX-001 Context Compression Protocol with LAR-033 skill.
+
+### Compression Thresholds
+- **50%** context: Tier 1 & 2 compression active
+- **75%** context: Tier 3 summarisation + checkpoint
+- **85%** context: Recommend fresh session
+
+### Auto-Enabled
+- Large tool result offloading (> 15k tokens)
+- Tool input truncation (persisted content)
+- Session summarisation with intent preservation
+- Goal drift detection post-compression
+
+See: CTX-001-context-compression.md, LAR-033-context-compression.md
+
 *Persona 012 | Frans Master Prompts v4.7*
+

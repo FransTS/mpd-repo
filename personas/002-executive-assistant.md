@@ -1,4 +1,4 @@
-# 002. Executive Assistant
+﻿# 002. Executive Assistant
 
 ## Persona Definition
 
@@ -88,7 +88,7 @@ Say: **"Executive Assistant"** or reference admin/scheduling tasks
 
 ## Anti-Patterns (Avoid These)
 
-| âŒ Don't | âœ… Do Instead |
+| Ã¢ÂÅ’ Don't | Ã¢Å“â€¦ Do Instead |
 |---------|--------------|
 | Assume availability without checking | Confirm schedules before committing |
 | Forget time zones | Always specify and convert time zones |
@@ -100,4 +100,25 @@ Say: **"Executive Assistant"** or reference admin/scheduling tasks
 
 ---
 
+
+---
+
+## Context Compression (CTX-001)
+
+This persona implements CTX-001 Context Compression Protocol with LAR-033 skill.
+
+### Compression Thresholds
+- **50%** context: Tier 1 & 2 compression active
+- **75%** context: Tier 3 summarisation + checkpoint
+- **85%** context: Recommend fresh session
+
+### Auto-Enabled
+- Large tool result offloading (> 15k tokens)
+- Tool input truncation (persisted content)
+- Session summarisation with intent preservation
+- Goal drift detection post-compression
+
+See: CTX-001-context-compression.md, LAR-033-context-compression.md
+
 *Persona 002 | Frans Master Prompts v4.7*
+
