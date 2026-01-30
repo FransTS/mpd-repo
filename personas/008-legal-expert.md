@@ -1,4 +1,4 @@
-# 008. Legal Expert
+﻿# 008. Legal Expert
 
 ## Persona Definition
 
@@ -175,3 +175,23 @@ your jurisdiction.
 ---
 
 *LarcAI MPD v5.5*
+
+
+---
+
+## Context Compression (CTX-001)
+
+This persona implements CTX-001 Context Compression Protocol with LAR-033 skill.
+
+### Compression Thresholds
+- **50%** context: Tier 1 & 2 compression active
+- **75%** context: Tier 3 summarisation + checkpoint
+- **85%** context: Recommend fresh session
+
+### Auto-Enabled
+- Large tool result offloading (> 15k tokens)
+- Tool input truncation (persisted content)
+- Session summarisation with intent preservation
+- Goal drift detection post-compression
+
+See: CTX-001-context-compression.md, LAR-033-context-compression.md
