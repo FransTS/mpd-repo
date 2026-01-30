@@ -1,24 +1,25 @@
-# Frans Skill Registry v2.6
+﻿# Frans Skill Registry v2.7
 
 | Field | Value |
 |-------|-------|
-| **Document ID** | FRANS-SKILL-REG-2026-008 |
-| **Version** | 2.6 |
-| **Last Updated** | 26 January 2026 \| SAST (UTC+2) |
+| **Document ID** | FRANS-SKILL-REG-2026-009 |
+| **Version** | 2.7 |
+| **Last Updated** | 29 January 2026 | SAST (UTC+2) |
 | **Owner** | Frans Vermaak (CTGO, LarcAI) |
-| **Compatible With** | Frans Master Prompts v5.1 |
+| **Compatible With** | Frans Master Prompts v5.4 |
 
 ---
 
-> **NEW in v2.6:**
-> - LAR-031 Development Testing Protocol (Enterprise-grade code verification)
-> - 8-phase verification gate system
-> - TypeScript/React/Node.js build quality assurance
+> **NEW in v2.7:**
+> - CTX-001 Context Compression Protocol (LangChain Deep Agents methodology)
+> - LAR-033 Context Compression Skill (three-tier compression)
+> - SES-001 v2.0 with compression integration
+> - LAR-006 v1.3 with compression routing
+> - Goal drift detection and recovery
 >
-> **v2.5:** LAR-030 Document Review Methodology, Editorial QA
-> **v2.4:** LAR-027 RLM Framework, LAR-028 Long-Context Processing, LAR-029 Complex Document Analysis
-> **v2.3:** LAR-025 Ralph Loop, TDP-001 Tool Discovery
-> **v2.2:** LAR-024 Memory Integration, MEM-001 Memory Protocol
+> **v2.6:** LAR-031 Development Testing Protocol
+> **v2.5:** LAR-030 Document Review Methodology
+> **v2.4:** LAR-027 RLM Framework, LAR-028/029 Complex Documents
 
 ---
 
@@ -28,13 +29,10 @@
 |--------|---------|
 | Load skill | `"Load skill: [name]"` or trigger phrase |
 | Autonomous mode | `"handle this"` or `"figure out"` |
-| Tool discovery | `mcpl search "<capability>"` |
 | Ralph Loop | `"Ralph Loop this"`, `"fresh context"` |
-| Batch processing | `"batch process"`, `"checkpoint"` |
-| Memory | `"save to memory"`, `"remember this"` |
 | RLM Processing | `"analyse complex document"`, `"due diligence"` |
-| **Document Review** | `"review this document"`, `"expert editor"` |
-| **Dev Testing** | `"code change"`, `"implement feature"`, `"fix bug"` |
+| **Context Status** | **`"context status"`, `"compress"`** |
+| **Recovery** | **`"recover [topic]"`, `"show intent"`** |
 
 ---
 
@@ -44,21 +42,22 @@
 
 | ID | Name | Triggers | Purpose |
 |----|------|----------|---------|
-| TDP-001 | tool-discovery | automatic | Dynamic tool access via mcpl |
-| LAR-006 | autonomous-routing | "handle this" | Task routing **(v1.2 with RLM detection)** |
+| TDP-001 | tool-discovery | automatic | Dynamic tool access |
+| LAR-006 | autonomous-routing | "handle this" | Task routing **(v1.3)** |
 | LAR-007 | self-assessment | before delivery | Quality check |
 | LAR-008 | escalation-protocol | "proceed or confirm" | User confirmation |
 | LAR-013 | error-recovery | on failure | Failure handling |
 | LAR-024 | memory-integration | automatic | Session persistence |
 | LAR-028 | long-context-processing | automatic | Context management |
-| **LAR-031** | **development-testing** | **code changes** | **Build verification gates** |
+| LAR-031 | development-testing | code changes | Build verification |
+| **LAR-033** | **context-compression** | **automatic** | **Three-tier compression** |
 
 ### Tier 2: Domain Skills (On-Demand)
 
 | ID | Name | Triggers |
 |----|------|----------|
 | LAR-001 | research-protocol | "deep research" |
-| LAR-002 | contract-analysis | "review contract" **(v2.0 RLM-enhanced)** |
+| LAR-002 | contract-analysis | "review contract" |
 | LAR-003 | prompt-engineering | "create prompt" |
 | LAR-004 | sales-playbook | "lighthouse", "workshop" |
 | LAR-005 | email-mastery | "draft email" |
@@ -66,50 +65,22 @@
 | LAR-010 | meeting-mastery | "meeting agenda" |
 | LAR-011 | project-planning | "project plan" |
 | LAR-012 | architecture-diagrams | "architecture diagram" |
-| LAR-019 | knowledge-synthesis | "synthesise", "combine sources" |
+| LAR-019 | knowledge-synthesis | "synthesise" |
 | LAR-021 | authenticity-check | "humanize", "AI check" |
-| LAR-022 | mcp-setup-guide | "setup mcp" |
-| LAR-023 | batch-processing | "batch process", "checkpoint" |
-| LAR-025 | ralph-loop | "Ralph Loop", "fresh context", "iterative" |
-| LAR-027 | rlm-framework | "complex document", "due diligence" |
-| LAR-029 | complex-document-analysis | "multi-document", "document suite" |
-| LAR-030 | document-review | "review document", "expert editor", "proofread", "fact check" |
-| **LAR-031** | **development-testing** | **"code change", "implement feature", "fix bug", TypeScript/React tasks** |
+| LAR-025 | ralph-loop | "Ralph Loop", "fresh context" |
+| LAR-027 | rlm-framework | "complex document" |
+| LAR-029 | complex-document-analysis | "document suite" |
+| LAR-030 | document-review | "review document" |
+| LAR-032 | quotation-validation | "validate quote" |
 
 ### Tier 3: Specialist Skills
 
 | ID | Name | Domain |
 |----|------|--------|
-| SK-015 | Transcription Methodology | Audio/Video |
-| SK-016 | Afrikaans Processing | Linguistics |
-| SK-017 | Speaker Diarisation | Audio |
-| SK-018 | Domain Vocabulary | Terminology |
-| SK-019 | Multimodal Analysis | Media |
-
----
-
-## LAR-030 Document Review Quick Reference
-
-```
-REVIEW CATEGORIES:
-├── LQ: Language Quality (spelling, grammar, punctuation, syntax)
-├── DF: Design & Formatting (typography, layout, headings, tables)
-├── FV: Fact Verification (numbers, dates, claims, references)
-├── RC: Requirements Compliance (gap analysis, mapping)
-└── SC: Style Consistency (tone, voice, terminology)
-
-REVIEW DEPTHS:
-├── Quick: LQ basics only (5-10 min)
-├── Standard: LQ + DF + key facts (15-30 min)
-├── Deep: All categories + compliance (30-60 min)
-└── Forensic: Everything + cross-reference (60+ min)
-
-ISSUE SEVERITY:
-├── Critical: Must fix before submission
-├── High: Should fix (significant impact)
-├── Medium: Recommended (noticeable)
-└── Low: Consider (polish)
-```
+| SK-015 to SK-019 | Transcription | Audio/Video |
+| SK-020, SK-021 | Biblical | Spiritual |
+| SK-022, SK-023 | UiPath | RPA |
+| SK-024, SK-025 | Financial | Excel/Models |
 
 ---
 
@@ -117,54 +88,23 @@ ISSUE SEVERITY:
 
 | ID | Name | Purpose |
 |----|------|---------|
-| TDP-001 | Tool Discovery Protocol | Dynamic mcpl tool access |
-| MEM-001 | Memory Protocol | Session persistence |
-| SES-001 | Session Persistence | Checkpoint management |
-| PR-017 | Long Complex Task Execution | Multi-step workflows |
-| PR-018 | Ralph Loop Protocol | Iterative fresh-context execution |
-| PR-019 | RLM Protocol | Complex document processing |
+| **CTX-001** | **Context Compression** | **Three-tier compression** |
+| SES-001 | Session Persistence | Checkpointing **(v2.0)** |
+| MEM-001 | Memory Protocol | Cross-session memory |
+| PR-017 | Long Complex Task | Multi-step workflows |
+| PR-018 | Ralph Loop | Fresh context execution |
+| PR-019 | RLM Protocol | Document processing |
 
 ---
 
-## Persona-Skill Matrix
+## Context Compression (CTX-001)
 
-| ID | Persona | Auto-Load Skills |
-|----|---------|-----------------|
-| 001 | Executive Strategic Advisor | research, decision-framework |
-| 002 | Executive Assistant | email, meeting |
-| 003 | Market Research | research, data-analysis, rlm-framework |
-| 004 | Sales Enablement | sales-playbook |
-| 008 | Legal Expert | contract-analysis v2.0, rlm-framework |
-| 009 | Software Architect | architecture, ralph-loop, rlm-framework, **development-testing** |
-| 010 | The Architect | routing, batch-processing, memory, ralph-loop, **development-testing** |
-| 012 | Prompt Engineer | prompt-engineering, ralph-loop |
-| 013 | Authenticity Reviewer | authenticity-check, self-assessment |
-| 015 | Transcript Specialist | SK-015, SK-018, batch-processing |
-| 017 | Complex Document Analyst | rlm-framework, complex-document-analysis |
-| **018** | **Expert Document Editor** | **document-review, authenticity-check, self-assessment, knowledge-synthesis** |
-| **ALL** | **All Personas** | TDP-001, memory-integration, long-context-processing |
-
----
-
-## QA Skill Matrix
-
-| Skill | Focus | Primary Persona |
-|-------|-------|-----------------|
-| LAR-007 | Self-assessment (output quality) | All |
-| LAR-021 | AI authenticity check | 013 |
-| LAR-029 | Complex document understanding | 017 |
-| **LAR-030** | **Editorial review (language, facts, compliance)** | **018** |
-
----
-
-## Document Workflow Skills
-
-| Phase | Skill | Persona |
-|-------|-------|---------|
-| **Create** | (various by type) | 005, 006 |
-| **Analyse** | LAR-027, LAR-029 | 017 |
-| **Review/Edit** | **LAR-030** | **018** |
-| **Authenticity** | LAR-021 | 013 |
+| Context | State | Action |
+|---------|-------|--------|
+| < 50% | Normal | Continue |
+| 50-75% | ORANGE | Tier 1 & 2 compression |
+| 75-85% | RED | Tier 3 summarisation |
+| > 85% | CRITICAL | Fresh session |
 
 ---
 
@@ -172,14 +112,10 @@ ISSUE SEVERITY:
 
 | Version | Date | Changes |
 |---------|------|---------|
-| **2.6** | **26 Jan 2026** | **LAR-031 development-testing-protocol, 8-phase verification gates** |
-| 2.5 | 19 Jan 2026 | LAR-030 document-review, Persona 018 integration |
-| 2.4 | 18 Jan 2026 | LAR-027/028/029 RLM skills, Persona 017 |
-| 2.3 | 17 Jan 2026 | LAR-025 ralph-loop, PR-018, TDP-001 integration |
-| 2.2 | 15 Jan 2026 | LAR-024 memory-integration, MEM-001 |
-| 2.1 | 14 Jan 2026 | LAR-004 sales-playbook v2.0 |
-| 2.0 | 12 Jan 2026 | LAR-023 batch-processing, PR-017 |
+| **2.7** | **29 Jan 2026** | **CTX-001, LAR-033, compression integration** |
+| 2.6 | 26 Jan 2026 | LAR-031 development-testing |
+| 2.5 | 19 Jan 2026 | LAR-030 document-review |
 
 ---
 
-*Frans Skill Registry v2.5 | Compatible with Frans Master Prompts v5.1*
+*Frans Skill Registry v2.7 | Compatible with Frans Master Prompts v5.4*

@@ -1,4 +1,4 @@
-# Session Persistence Protocol v1.2
+﻿# Session Persistence Protocol v1.2
 
 ## Metadata
 
@@ -7,7 +7,7 @@
 | **Protocol ID** | SES-001 |
 | **Version** | 1.2 |
 | **Created** | 15 January 2026 |
-| **Updated** | 28 January 2026 |
+| **Updated** | 29 January 2026 |
 | **Owner** | Frans Vermaak (CTGO, LarcAI) |
 | **Priority** | HIGH - Prevents work loss from context limits |
 
@@ -21,23 +21,53 @@ Prevent work loss when Claude hits context window limits by:
 3. Caching intermediate results locally
 4. Proactive context management
 
+
+---
+
+## Context Compression Integration (CTX-001) - NEW v2.0
+
+### Compression Thresholds
+
+| Context Usage | State | Action |
+|---------------|-------|--------|
+| < 25% | GREEN | Normal operation |
+| 25-50% | YELLOW | Monitor, prepare compression |
+| 50-75% | ORANGE | **Tier 1 & 2 compression active** |
+| 75-85% | RED | **Tier 3 summarisation + checkpoint** |
+| > 85% | CRITICAL | **Final checkpoint + fresh session** |
+
+### Three-Tier Compression
+
+- **Tier 1:** Offload tool results > 15k tokens to `cache/offloaded/`
+- **Tier 2:** Truncate persisted tool inputs at 50% context
+- **Tier 3:** Summarise conversation at 75%, archive to `cache/conversations/`
+
+### Goal Drift Detection
+
+After Tier 3 summarisation:
+1. Verify intent alignment with original objective
+2. Check for drift indicators (clarification requests, premature completion)
+3. Recover from archive if drift detected
+
+See: CTX-001-context-compression.md, LAR-033-context-compression.md
+
 ---
 
 ## Memory Paths
 
 ```
 G:\My Drive\Shared_Download\AI_Folder\Memory\
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Shared/
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ active_task.md          # Current task state (CRITICAL)
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ session_handoff.md      # Session summary
-Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ cache/
-Ã¢â€â€š       Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ checkpoints/        # Task checkpoints
-Ã¢â€â€š       Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ intermediate/       # Intermediate results
-Ã¢â€â€š       Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ context/            # Compacted context
-Ã¢â€â€š
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ [Device]/
-Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ cache/
-Ã¢â€â€š       Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ temp/               # Session-specific temp data
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Shared/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ active_task.md          # Current task state (CRITICAL)
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ session_handoff.md      # Session summary
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ cache/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ checkpoints/        # Task checkpoints
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ intermediate/       # Intermediate results
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ context/            # Compacted context
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ [Device]/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ cache/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ temp/               # Session-specific temp data
 ```
 
 ---
@@ -47,7 +77,7 @@ G:\My Drive\Shared_Download\AI_Folder\Memory\
 ### CRITICAL: Never Restart From Scratch
 
 ```
-⚠️ MANDATORY RULE (Added 28 Jan 2026)
+âš ï¸ MANDATORY RULE (Added 28 Jan 2026)
 
 WHEN a multi-step task is interrupted, fails, or session breaks:
 1. NEVER restart the task from the beginning
@@ -264,31 +294,31 @@ all_personas:
 
 ```
 1. START
-   Ã¢â€ â€™ Create active_task.md: "Process 20 docs, extract summaries"
-   Ã¢â€ â€™ Create checkpoint folder: checkpoints/doc_processing_20260115/
+   ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Create active_task.md: "Process 20 docs, extract summaries"
+   ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Create checkpoint folder: checkpoints/doc_processing_20260115/
 
 2. PROCESS docs 1-5
-   Ã¢â€ â€™ Save checkpoint: CKP-001 (docs 1-5 complete)
-   Ã¢â€ â€™ Cache summaries to: intermediate/doc_summaries_1-5.md
+   ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Save checkpoint: CKP-001 (docs 1-5 complete)
+   ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Cache summaries to: intermediate/doc_summaries_1-5.md
 
 3. PROCESS docs 6-10
-   Ã¢â€ â€™ Save checkpoint: CKP-002 (docs 1-10 complete)
-   Ã¢â€ â€™ Cache summaries to: intermediate/doc_summaries_6-10.md
+   ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Save checkpoint: CKP-002 (docs 1-10 complete)
+   ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Cache summaries to: intermediate/doc_summaries_6-10.md
 
 4. [CONTEXT LIMIT HIT]
-   Ã¢â€ â€™ Auto-save: CKP-003 (docs 1-12 complete, 13 in progress)
-   Ã¢â€ â€™ Save state: "Doc 13 partially processed. Next: complete 13, then 14-20"
+   ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Auto-save: CKP-003 (docs 1-12 complete, 13 in progress)
+   ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Save state: "Doc 13 partially processed. Next: complete 13, then 14-20"
 
 5. NEW SESSION
-   Ã¢â€ â€™ User: "Continue task"
-   Ã¢â€ â€™ Load CKP-003
-   Ã¢â€ â€™ Resume from doc 13
-   Ã¢â€ â€™ Continue through doc 20
+   ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ User: "Continue task"
+   ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Load CKP-003
+   ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Resume from doc 13
+   ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Continue through doc 20
 
 6. COMPLETE
-   Ã¢â€ â€™ Final checkpoint: CKP-FINAL (all 20 complete)
-   Ã¢â€ â€™ Consolidate outputs
-   Ã¢â€ â€™ Update session_handoff.md
+   ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Final checkpoint: CKP-FINAL (all 20 complete)
+   ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Consolidate outputs
+   ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Update session_handoff.md
 ```
 
 ---
@@ -359,9 +389,9 @@ NEVER:
 ## Completed Items
 | Item | Status | Result/Notes |
 |------|--------|-------------|
-| 1.png | ✅ | Semantic Framework diagram |
-| 2.png | ✅ | Kobliat features - 5 modules |
-| 3.png | ✅ | AIForged full platform |
+| 1.png | âœ… | Semantic Framework diagram |
+| 2.png | âœ… | Kobliat features - 5 modules |
+| 3.png | âœ… | AIForged full platform |
 ...
 
 ## Next Item
@@ -377,7 +407,7 @@ Continue from item [X+1]
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 1.2 | 28 January 2026 | Added CRITICAL never-restart rule, failure recovery protocol, bulk processing checkpoint format |
+| 1.2 | 29 January 2026 | Added CRITICAL never-restart rule, failure recovery protocol, bulk processing checkpoint format |
 | 1.0 | 15 January 2026 | Initial Session Persistence Protocol |
 
 ---

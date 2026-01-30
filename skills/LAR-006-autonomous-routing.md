@@ -1,4 +1,4 @@
-# Frans Skill: Autonomous Routing
+﻿# Frans Skill: Autonomous Routing
 
 ## Metadata
 
@@ -9,7 +9,7 @@
 | **ID** | LAR-006 |
 | **Triggers** | "handle this", "figure out", complex tasks |
 | **Always Active** | YES |
-| **Updated** | 18 January 2026 |
+| **Updated** | 29 January 2026 |
 
 ---
 
@@ -89,24 +89,48 @@ Before processing documents, assess:
 
 ```
 1. DOCUMENT COUNT
-   ├── Single document → Check length
-   └── Multiple documents → Check relationships
+   â”œâ”€â”€ Single document â†’ Check length
+   â””â”€â”€ Multiple documents â†’ Check relationships
 
 2. DOCUMENT LENGTH (single)
-   ├── < 15 pages → Standard processing
-   ├── 15-30 pages → Consider RLM
-   └── > 30 pages → **Apply RLM**
+   â”œâ”€â”€ < 15 pages â†’ Standard processing
+   â”œâ”€â”€ 15-30 pages â†’ Consider RLM
+   â””â”€â”€ > 30 pages â†’ **Apply RLM**
 
 3. DOCUMENT RELATIONSHIPS (multiple)
-   ├── Independent → Process sequentially
-   ├── Cross-referenced → **Apply RLM**
-   └── Suite (master + exhibits) → **Route to 017**
+   â”œâ”€â”€ Independent â†’ Process sequentially
+   â”œâ”€â”€ Cross-referenced â†’ **Apply RLM**
+   â””â”€â”€ Suite (master + exhibits) â†’ **Route to 017**
 
 4. QUERY COMPLEXITY
-   ├── Single fact lookup → Standard
-   ├── Multi-hop reasoning → **Apply RLM**
-   └── Aggregation/comparison → **Apply RLM**
+   â”œâ”€â”€ Single fact lookup â†’ Standard
+   â”œâ”€â”€ Multi-hop reasoning â†’ **Apply RLM**
+   â””â”€â”€ Aggregation/comparison â†’ **Apply RLM**
 ```
+
+
+---
+
+## Context Compression Routing (NEW v1.3)
+
+### Context Thresholds (CTX-001)
+
+| Context Usage | State | Routing Action |
+|---------------|-------|----------------|
+| < 25% | GREEN | Normal routing |
+| 25-50% | YELLOW | Monitor, prepare |
+| **50-75%** | **ORANGE** | **Activate Tier 1 & 2 compression** |
+| **75-85%** | **RED** | **Tier 3 + checkpoint + drift check** |
+| **> 85%** | **CRITICAL** | **Checkpoint + fresh session** |
+
+### Goal Drift Detection
+
+After Tier 3 summarisation:
+- Verify intent alignment
+- Check for clarification/completion drift
+- Recover from archive if needed
+
+See: CTX-001-context-compression.md, LAR-033-context-compression.md
 
 ---
 
@@ -161,7 +185,7 @@ Monitor for signs of degradation:
 
 **On detection:** Immediately recommend:
 ```markdown
-⚠️ Context approaching capacity. Recommend:
+âš ï¸ Context approaching capacity. Recommend:
 1. Checkpoint current progress
 2. Start fresh session
 3. Continue from progress.md
@@ -206,63 +230,63 @@ Monitor for signs of degradation:
 
 ```
 1. PARSE REQUEST
-   ├── Identify objective(s)
-   ├── Identify domain(s)
-   ├── Identify output format(s)
-   ├── Identify constraints
-   ├── **Estimate document complexity**
-   └── **Estimate task count and scope**
+   â”œâ”€â”€ Identify objective(s)
+   â”œâ”€â”€ Identify domain(s)
+   â”œâ”€â”€ Identify output format(s)
+   â”œâ”€â”€ Identify constraints
+   â”œâ”€â”€ **Estimate document complexity**
+   â””â”€â”€ **Estimate task count and scope**
 
 2. DOCUMENT CHECK (NEW)
-   ├── IF document attached or referenced:
-   │   ├── Assess length (pages/tokens)
-   │   ├── Assess relationships (single/suite)
-   │   ├── Assess query complexity (single-hop/multi-hop)
-   │   └── **Determine RLM applicability**
-   └── Continue to complexity classification
+   â”œâ”€â”€ IF document attached or referenced:
+   â”‚   â”œâ”€â”€ Assess length (pages/tokens)
+   â”‚   â”œâ”€â”€ Assess relationships (single/suite)
+   â”‚   â”œâ”€â”€ Assess query complexity (single-hop/multi-hop)
+   â”‚   â””â”€â”€ **Determine RLM applicability**
+   â””â”€â”€ Continue to complexity classification
 
 3. CLASSIFY COMPLEXITY
-   ├── Count distinct domains
-   ├── Count required outputs
-   ├── Assess interdependencies
-   ├── **Check RLM criteria**
-   ├── **Check Ralph Loop criteria**
-   └── Assign: SIMPLE | MODERATE | COMPLEX | RLM | RALPH_LOOP
+   â”œâ”€â”€ Count distinct domains
+   â”œâ”€â”€ Count required outputs
+   â”œâ”€â”€ Assess interdependencies
+   â”œâ”€â”€ **Check RLM criteria**
+   â”œâ”€â”€ **Check Ralph Loop criteria**
+   â””â”€â”€ Assign: SIMPLE | MODERATE | COMPLEX | RLM | RALPH_LOOP
 
 4. RLM CHECK
-   ├── IF document > 30 pages → Apply RLM
-   ├── IF multiple related docs → Apply RLM
-   ├── IF due diligence/doc suite → Route to 017
-   ├── IF multi-hop query on docs → Apply RLM
-   └── ELSE → Continue normal routing
+   â”œâ”€â”€ IF document > 30 pages â†’ Apply RLM
+   â”œâ”€â”€ IF multiple related docs â†’ Apply RLM
+   â”œâ”€â”€ IF due diligence/doc suite â†’ Route to 017
+   â”œâ”€â”€ IF multi-hop query on docs â†’ Apply RLM
+   â””â”€â”€ ELSE â†’ Continue normal routing
 
 5. RALPH LOOP CHECK
-   ├── IF task_count > 5 → Suggest Ralph Loop
-   ├── IF scope_keywords detected → Suggest Ralph Loop
-   ├── IF multi-session likely → Suggest Ralph Loop
-   └── ELSE → Continue normal routing
+   â”œâ”€â”€ IF task_count > 5 â†’ Suggest Ralph Loop
+   â”œâ”€â”€ IF scope_keywords detected â†’ Suggest Ralph Loop
+   â”œâ”€â”€ IF multi-session likely â†’ Suggest Ralph Loop
+   â””â”€â”€ ELSE â†’ Continue normal routing
 
 6. SELECT PERSONA(S)
-   ├── Match domain to persona matrix
-   ├── **Apply RLM routing if triggered**
-   ├── Identify primary persona
-   ├── Identify supporting personas (if needed)
-   └── Load required skills
+   â”œâ”€â”€ Match domain to persona matrix
+   â”œâ”€â”€ **Apply RLM routing if triggered**
+   â”œâ”€â”€ Identify primary persona
+   â”œâ”€â”€ Identify supporting personas (if needed)
+   â””â”€â”€ Load required skills
 
 7. PLAN EXECUTION
-   ├── SIMPLE: Execute directly
-   ├── MODERATE: Brief plan, then execute
-   ├── COMPLEX: Full decomposition, state plan
-   ├── **RLM: Index → Decompose → Recursive Execute → Synthesise**
-   └── **RALPH_LOOP: Create PRD, initialise progress.md**
+   â”œâ”€â”€ SIMPLE: Execute directly
+   â”œâ”€â”€ MODERATE: Brief plan, then execute
+   â”œâ”€â”€ COMPLEX: Full decomposition, state plan
+   â”œâ”€â”€ **RLM: Index â†’ Decompose â†’ Recursive Execute â†’ Synthesise**
+   â””â”€â”€ **RALPH_LOOP: Create PRD, initialise progress.md**
 
 8. EXECUTE
-   ├── Follow plan
-   ├── Chain as needed
-   ├── **Monitor context usage**
-   ├── **Apply RLM sub-calls if context heavy**
-   ├── Maintain quality standards
-   └── Consolidate outputs
+   â”œâ”€â”€ Follow plan
+   â”œâ”€â”€ Chain as needed
+   â”œâ”€â”€ **Monitor context usage**
+   â”œâ”€â”€ **Apply RLM sub-calls if context heavy**
+   â”œâ”€â”€ Maintain quality standards
+   â””â”€â”€ Consolidate outputs
 ```
 
 ---
@@ -282,7 +306,7 @@ Action: Direct execution
 **Request:** "Create a sales proposal for our new product"
 ```
 Domains: Sales + Documents
-Personas: 004 Sales Enablement → 005 Document Creator
+Personas: 004 Sales Enablement â†’ 005 Document Creator
 Skills: sales-playbook, docx
 Action: Sequential chain with brief plan
 ```
@@ -418,6 +442,7 @@ If routing is unclear:
 
 | Version | Date | Changes |
 |---------|------|---------|
+| **1.3** | **29 Jan 2026** | **CTX-001 integration, compression routing, goal drift** |
 | **1.2** | **18 Jan 2026** | **Added RLM auto-detection, Persona 017 routing, context thresholds** |
 | 1.1 | 17 Jan 2026 | Added Ralph Loop auto-detection |
 | 1.0 | - | Initial release |
