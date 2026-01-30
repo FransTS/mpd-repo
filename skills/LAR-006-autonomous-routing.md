@@ -1,34 +1,25 @@
-﻿# Frans Skill: Autonomous Routing
+# Frans Skill: Autonomous Routing
 
 ## Metadata
 
 | Field | Value |
 |-------|-------|
 | **Name** | autonomous-routing |
-| **Version** | 1.3 |
+| **Version** | 1.2 |
 | **ID** | LAR-006 |
 | **Triggers** | "handle this", "figure out", complex tasks |
 | **Always Active** | YES |
-| **Updated** | 29 January 2026 |
-
----
-
-> **NEW in v1.3:**
-> - Context compression routing (CTX-001 integration)
-> - Enhanced context threshold management
-> - Goal drift detection triggers
-> - Compression-aware persona routing
-> - Based on LangChain Deep Agents methodology
+| **Updated** | 18 January 2026 |
 
 ---
 
 ## Purpose
 
-Self-select personas, decompose tasks, chain operations, detect when **Ralph Loop (PR-018)**, **RLM (PR-019)**, or **Context Compression (CTX-001)** is appropriate without user intervention.
+Self-select personas, decompose tasks, chain operations, detect when **Ralph Loop (PR-018)** or **RLM (PR-019)** is appropriate without user intervention.
 
 ---
 
-## Complexity Classification (Updated v1.3)
+## Complexity Classification
 
 | Level | Personas | Action |
 |-------|----------|--------|
@@ -37,71 +28,10 @@ Self-select personas, decompose tasks, chain operations, detect when **Ralph Loo
 | **COMPLEX** | 2+ personas | Full decomposition |
 | **RALPH LOOP** | Any | Fresh context per task (PR-018) |
 | **RLM** | Any | Recursive document processing (PR-019) |
-| **COMPRESSION** | Any | **Context management active (CTX-001)** |
 
 ---
 
-## Context Compression Routing (NEW v1.3)
-
-### Context Thresholds (CTX-001)
-
-| Context Usage | State | Routing Action |
-|---------------|-------|----------------|
-| < 25% | GREEN | Normal routing |
-| 25-50% | YELLOW | Monitor, prepare compression |
-| **50-75%** | **ORANGE** | **Activate Tier 1 & 2 compression** |
-| **75-85%** | **RED** | **Trigger Tier 3 + checkpoint + drift check** |
-| **> 85%** | **CRITICAL** | **Checkpoint + recommend fresh session** |
-
-### Compression-Aware Routing
-
-`
-WHEN context threshold crossed:
-
-AT 50%:
-  1. Log context level ORANGE
-  2. Route to LAR-033 for Tier 2 truncation
-  3. Check if RLM sub-calls would help remaining work
-  4. Continue with compression active
-
-AT 75%:
-  1. Log context level RED
-  2. Create checkpoint BEFORE compression
-  3. Route to LAR-033 for Tier 3 summarisation
-  4. Run goal drift detection
-  5. Recover if drift detected
-
-AT 85%:
-  1. Log context level CRITICAL
-  2. Create final checkpoint
-  3. Preserve all state
-  4. RECOMMEND: "Context at critical level. Recommend fresh session to continue."
-`
-
-### Goal Drift Detection (NEW)
-
-After ANY Tier 3 summarisation:
-
-`
-CHECK 1: Intent Alignment
-- Current action aligns with preserved Session Intent?
-- Would user recognise this as their task?
-
-CHECK 2: Drift Indicators
-- Immediately asking for clarification? ƒÅ' WARN
-- Declaring complete without deliverable? ƒÅ' WARN
-- Working on unrelated subtask? ƒÅ' WARN
-
-ON DRIFT:
-1. Route to recovery operation
-2. Search offloaded/archived content
-3. Realign with original intent
-4. Inform user if deviation prevented
-`
-
----
-
-## RLM Auto-Detection
+## RLM Auto-Detection (NEW in v1.2)
 
 ### When to Apply RLM
 
@@ -114,7 +44,17 @@ ON DRIFT:
 | Code repository size | > 20 files to analyse | Apply LAR-027 |
 | Research sources | > 5 sources to synthesise | Apply LAR-027 |
 | Due diligence request | Any | **Route to Persona 017** |
-| **Context > 50%** | **With remaining document work** | **Use RLM sub-calls (NEW)** |
+
+### RLM Detection Keywords
+
+Auto-apply RLM when request contains:
+- "analyse this contract" + document > 30 pages
+- "review these documents" + multiple files
+- "due diligence", "document review"
+- "contract suite", "master agreement with exhibits"
+- "understand this codebase", "trace the code"
+- "synthesise these reports", "compare across sources"
+- "cross-reference", "dependency mapping"
 
 ### RLM Persona Routing
 
@@ -126,6 +66,47 @@ ON DRIFT:
 | Multi-source research | 003 Market Research | LAR-001, LAR-027 |
 | Large codebase | 009 Software Architect | LAR-012, LAR-027 |
 | General complex docs | **017 Document Analyst** | LAR-027, LAR-028, LAR-029 |
+
+### RLM Application Format
+
+When RLM detected, respond:
+
+```markdown
+This requires **RLM (Recursive Language Model)** processing due to [document length / multiple documents / complex cross-references].
+
+**Approach:**
+1. Index documents (create searchable structure)
+2. Decompose query into sub-queries
+3. Process each with fresh context
+4. Synthesise findings with citations
+
+Proceeding with RLM methodology...
+```
+
+### Document Complexity Assessment
+
+Before processing documents, assess:
+
+```
+1. DOCUMENT COUNT
+   ├── Single document → Check length
+   └── Multiple documents → Check relationships
+
+2. DOCUMENT LENGTH (single)
+   ├── < 15 pages → Standard processing
+   ├── 15-30 pages → Consider RLM
+   └── > 30 pages → **Apply RLM**
+
+3. DOCUMENT RELATIONSHIPS (multiple)
+   ├── Independent → Process sequentially
+   ├── Cross-referenced → **Apply RLM**
+   └── Suite (master + exhibits) → **Route to 017**
+
+4. QUERY COMPLEXITY
+   ├── Single fact lookup → Standard
+   ├── Multi-hop reasoning → **Apply RLM**
+   └── Aggregation/comparison → **Apply RLM**
+```
 
 ---
 
@@ -139,12 +120,35 @@ ON DRIFT:
 | Project scope keywords | "build app", "full system", "complete project" | Suggest Ralph Loop |
 | Multi-session estimate | > 3 sessions expected | Suggest Ralph Loop |
 | Context rot detected | Repetitive/declining responses | **Recommend fresh session** |
-| **Context > 85%** | **Any (NEW)** | **Recommend fresh session** |
-| Long conversation | > 75% context | **Checkpoint + recommend (NEW)** |
+| Long conversation | > 50% context (~100k tokens) | **Recommend fresh session** |
+
+### Detection Keywords
+
+Auto-suggest Ralph Loop when request contains:
+- "build entire", "full application", "complete system"
+- "from scratch", "end-to-end", "comprehensive"
+- "multi-phase", "multiple stages", "project plan"
+- "website with multiple pages", "app with features"
+- Any request estimating > 2 hours of work
+
+### Ralph Loop Suggestion Format
+
+When detected, respond:
+
+```markdown
+This looks like a **Ralph Loop candidate** - a multi-step project that benefits from fresh context per task.
+
+**Recommended approach:**
+1. Create PRD with [N] discrete tasks
+2. Execute each in a fresh session
+3. Track progress in progress.md
+
+Shall I initialise Ralph Loop for this project?
+```
 
 ---
 
-## Context Monitoring (Enhanced v1.3)
+## Context Monitoring
 
 ### Context Rot Detection
 
@@ -154,143 +158,259 @@ Monitor for signs of degradation:
 - Declining code/output quality
 - Ignoring stated requirements
 - Hallucinating file contents
-- **Asking clarification immediately after compression (NEW)**
-- **Declaring complete without deliverable (NEW)**
 
-**On detection:** Immediately:
-`markdown
-ƒsÿ‹÷? Context issue detected. Actions:
+**On detection:** Immediately recommend:
+```markdown
+⚠️ Context approaching capacity. Recommend:
 1. Checkpoint current progress
-2. Search offloaded/archived content for missing context
-3. If recovery insufficient: recommend fresh session
-4. Continue from checkpoint in new session
-`
+2. Start fresh session
+3. Continue from progress.md
+```
 
-### Context Thresholds (Detailed v1.3)
+### Context Thresholds
 
-| Usage | Routing Action |
-|-------|----------------|
+| Usage | Action |
+|-------|--------|
 | < 25% | Continue normally |
-| 25-50% | Monitor, activate LAR-033 monitoring |
-| **50-75%** | **Apply Tier 1 & 2 via LAR-033, consider RLM sub-calls** |
-| **75-85%** | **Apply Tier 3 via LAR-033, checkpoint, drift check** |
-| **> 85%** | **Final checkpoint, recommend fresh session (Ralph Loop)** |
+| 25-50% | Monitor, consider RLM sub-calls |
+| 50-75% | **Apply RLM sub-calls for remaining work** |
+| > 75% | **Checkpoint + fresh session (Ralph Loop)** |
 
 ---
 
-## Routing Algorithm (Updated v1.3)
+## Persona Selection Matrix (Updated v1.2)
 
-`
+| Domain | Persona ID | RLM Auto-Load |
+|--------|------------|---------------|
+| Strategic/Board-level | 001 Executive Strategic Advisor | No |
+| Admin/Scheduling | 002 Executive Assistant | No |
+| Market/Competitor | 003 Market Research | **Yes** |
+| Sales/Revenue | 004 Sales Enablement | No |
+| Documents/Reports | 005 Document Creator | No |
+| Technical Docs | 006 Technical Writer | No |
+| Brand/Campaigns | 007 Marketing Advisor | No |
+| Contracts/Legal | 008 Legal Expert | **Yes** |
+| Code/Architecture | 009 Software Architect | **Yes** |
+| Meta/Routing | 010 The Architect | No |
+| Fitness | 011 Endurance Coach | No |
+| Prompts/AI | 012 Prompt Engineer | No |
+| AI Detection | 013 Authenticity Reviewer | No |
+| ERP/Sage | 014 Sage Intacct Support | No |
+| Transcription | 015 Transcript Specialist | No |
+| Airbnb | 016 Airbnb Host | No |
+| **Complex Documents** | **017 Document Analyst** | **Primary** |
+
+---
+
+## Routing Algorithm (Updated v1.2)
+
+```
 1. PARSE REQUEST
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª Identify objective(s)
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª Identify domain(s)
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª Estimate document complexity
-   ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ'ª¶?ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª Estimate task count and scope
+   ├── Identify objective(s)
+   ├── Identify domain(s)
+   ├── Identify output format(s)
+   ├── Identify constraints
+   ├── **Estimate document complexity**
+   └── **Estimate task count and scope**
 
-2. CONTEXT CHECK (NEW v1.3)
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª Check current context usage percentage
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª IF > 50% ƒÅ' Activate compression (CTX-001)
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª IF > 75% ƒÅ' Checkpoint + summarise
-   ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ'ª¶?ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª IF > 85% ƒÅ' Recommend fresh session
+2. DOCUMENT CHECK (NEW)
+   ├── IF document attached or referenced:
+   │   ├── Assess length (pages/tokens)
+   │   ├── Assess relationships (single/suite)
+   │   ├── Assess query complexity (single-hop/multi-hop)
+   │   └── **Determine RLM applicability**
+   └── Continue to complexity classification
 
-3. DOCUMENT CHECK
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª IF document attached or referenced:
-   ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ'ª­   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª Assess length (pages/tokens)
-   ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ'ª­   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª Assess relationships (single/suite)
-   ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ'ª­   ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ'ª¶?ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª Determine RLM applicability
-   ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ'ª¶?ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª Continue to complexity classification
+3. CLASSIFY COMPLEXITY
+   ├── Count distinct domains
+   ├── Count required outputs
+   ├── Assess interdependencies
+   ├── **Check RLM criteria**
+   ├── **Check Ralph Loop criteria**
+   └── Assign: SIMPLE | MODERATE | COMPLEX | RLM | RALPH_LOOP
 
-4. CLASSIFY COMPLEXITY
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª Count distinct domains
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª Check RLM criteria
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª Check Ralph Loop criteria
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª **Check compression criteria (NEW)**
-   ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ'ª¶?ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª Assign: SIMPLE | MODERATE | COMPLEX | RLM | RALPH_LOOP | COMPRESSION
+4. RLM CHECK
+   ├── IF document > 30 pages → Apply RLM
+   ├── IF multiple related docs → Apply RLM
+   ├── IF due diligence/doc suite → Route to 017
+   ├── IF multi-hop query on docs → Apply RLM
+   └── ELSE → Continue normal routing
 
-5. COMPRESSION CHECK (NEW v1.3)
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª IF large tool result (> 15k tokens) ƒÅ' Apply Tier 1
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª IF context > 50% ƒÅ' Apply Tier 2
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª IF context > 75% ƒÅ' Apply Tier 3 + checkpoint
-   ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ'ª¶?ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª IF context > 85% ƒÅ' Recommend fresh session
+5. RALPH LOOP CHECK
+   ├── IF task_count > 5 → Suggest Ralph Loop
+   ├── IF scope_keywords detected → Suggest Ralph Loop
+   ├── IF multi-session likely → Suggest Ralph Loop
+   └── ELSE → Continue normal routing
 
-6. RLM CHECK
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª IF document > 30 pages ƒÅ' Apply RLM
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª IF multiple related docs ƒÅ' Apply RLM
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª IF due diligence/doc suite ƒÅ' Route to 017
-   ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ'ª¶?ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª ELSE ƒÅ' Continue normal routing
+6. SELECT PERSONA(S)
+   ├── Match domain to persona matrix
+   ├── **Apply RLM routing if triggered**
+   ├── Identify primary persona
+   ├── Identify supporting personas (if needed)
+   └── Load required skills
 
-7. SELECT PERSONA(S)
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª Match domain to persona matrix
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª Apply RLM routing if triggered
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª **Apply compression routing if triggered (NEW)**
-   ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ'ª¶?ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª Load required skills + LAR-033 if compression active
+7. PLAN EXECUTION
+   ├── SIMPLE: Execute directly
+   ├── MODERATE: Brief plan, then execute
+   ├── COMPLEX: Full decomposition, state plan
+   ├── **RLM: Index → Decompose → Recursive Execute → Synthesise**
+   └── **RALPH_LOOP: Create PRD, initialise progress.md**
 
 8. EXECUTE
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª Follow plan
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª **Monitor context throughout (NEW)**
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª **Apply compression as needed (NEW)**
-   ÇŸ¶½Ç½ƒ'ª¶?Ç.ƒ?oÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª **Check goal drift post-compression (NEW)**
-   ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ'ª¶?ÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ªÇŸ¶½Ç½ƒ'ª¶?Ç½ƒ?s¶ª Consolidate outputs
-`
+   ├── Follow plan
+   ├── Chain as needed
+   ├── **Monitor context usage**
+   ├── **Apply RLM sub-calls if context heavy**
+   ├── Maintain quality standards
+   └── Consolidate outputs
+```
 
 ---
 
-## Stop Hooks (Updated v1.3)
+## Decision Examples
 
-`xml
-<stop-hook id="HOOK-RTE-005" type="GATE">
-  <trigger>Context usage > 50%</trigger>
-  <validation>
-    <check>Compression options available</check>
-    <check>Current task can benefit from compression</check>
-  </validation>
-  <on-pass>Apply Tier 1 & 2 compression, continue</on-pass>
-  <on-fail>Monitor and prepare for Tier 3</on-fail>
-</stop-hook>
+### SIMPLE Task
+**Request:** "Draft a meeting agenda for Monday's standup"
+```
+Domain: Admin/Scheduling
+Persona: 002 Executive Assistant
+Skill: meeting-mastery
+Action: Direct execution
+```
 
-<stop-hook id="HOOK-RTE-008" type="GATE">
-  <trigger>Context usage > 75%</trigger>
-  <validation>
-    <check>Tier 1 & 2 applied</check>
-    <check>Session intent captured</check>
-  </validation>
-  <on-pass>Apply Tier 3, checkpoint, drift check</on-pass>
-  <on-fail>Immediate checkpoint and fresh session</on-fail>
-</stop-hook>
+### MODERATE Task
+**Request:** "Create a sales proposal for our new product"
+```
+Domains: Sales + Documents
+Personas: 004 Sales Enablement → 005 Document Creator
+Skills: sales-playbook, docx
+Action: Sequential chain with brief plan
+```
 
-<stop-hook id="HOOK-RTE-009" type="HARD">
-  <trigger>Context usage > 85%</trigger>
-  <action>Final checkpoint, recommend fresh session</action>
-</stop-hook>
+### RLM Task (NEW)
+**Request:** "Review this 50-page master agreement and its 3 exhibits for risks"
+```
+Detection: Document > 30 pages + exhibits = suite
+Classification: RLM
+Persona: 008 Legal Expert (with LAR-027)
+Skills: LAR-002 v2.0, LAR-027, LAR-028
+Action: Apply RLM methodology
+Response: "This requires RLM processing due to document length and exhibits..."
+```
 
-<stop-hook id="HOOK-RTE-010" type="SOFT">
-  <trigger>Post Tier 3 compression</trigger>
-  <validation>
-    <check>Intent alignment verified</check>
-    <check>No drift indicators</check>
-  </validation>
-  <on-pass>Continue with task</on-pass>
-  <on-fail>Recover context and realign</on-fail>
-</stop-hook>
-`
+### RLM + Route to 017
+**Request:** "Conduct due diligence on these 20 documents for the acquisition"
+```
+Detection: Due diligence + 20 documents
+Classification: RLM + Complex
+Persona: **017 Document Analyst**
+Skills: LAR-027, LAR-028, LAR-029, PR-019
+Action: Full RLM workflow
+```
+
+### RALPH LOOP Task
+**Request:** "Build me a complete portfolio website with homepage, projects page, blog, and contact form"
+```
+Detection: "complete website", 4+ distinct pages, multi-session scope
+Classification: RALPH_LOOP
+Action: Suggest Ralph Loop
+Response: "This looks like a Ralph Loop candidate..."
+```
 
 ---
 
-## Integration with Other Skills (Updated v1.3)
+## Chaining Rules
+
+```
++chain=sequential-when-dependent   # Chain tasks that depend on each other
++chain=parallel-when-independent   # Run independent tasks in parallel
++handoff=seamless                  # Smooth transitions between personas
+-ask-permission-each-phase         # Don't interrupt for each step
++ralph-loop=auto-suggest           # Suggest PR-018 when criteria met
++rlm=auto-apply                    # Apply PR-019 when criteria met
+```
+
+---
+
+## Integration with Other Skills
 
 | Skill | Integration |
 |-------|-------------|
-| **LAR-033 context-compression** | **Execute compression operations (NEW)** |
-| **CTX-001 protocol** | **Compression thresholds and tiers (NEW)** |
 | LAR-007 self-assessment | Quality check after routing |
 | LAR-008 escalation-protocol | Determine ask vs. proceed |
-| LAR-014 context-management | Context tracking informs routing |
 | LAR-025 ralph-loop | Auto-suggest for complex projects |
-| LAR-027 rlm-framework | Auto-apply for document complexity |
-| LAR-028 long-context | Auto-apply for context management |
-| SES-001 | Checkpointing on compression events |
+| **LAR-027 rlm-framework** | **Auto-apply for document complexity** |
+| **LAR-028 long-context** | **Auto-apply for context management** |
+| **LAR-029 complex-docs** | **Auto-load for multi-doc analysis** |
 | PR-018 | Protocol for fresh context execution |
-| PR-019 | Protocol for recursive processing |
+| **PR-019** | **Protocol for recursive processing** |
+| All persona skills | Load based on selection |
+
+---
+
+## Stop Hooks
+
+```xml
+<stop-hook id="HOOK-RTE-001" type="SOFT">
+  <trigger>Multi-persona task (COMPLEX classification)</trigger>
+  <validation>
+    <check>All required personas identified</check>
+    <check>Execution order logical</check>
+    <check>Dependencies mapped</check>
+    <check>Output consolidation planned</check>
+  </validation>
+  <on-pass>State plan briefly, execute</on-pass>
+  <on-fail>Default to The Architect for analysis</on-fail>
+</stop-hook>
+
+<stop-hook id="HOOK-RTE-004" type="SOFT">
+  <trigger>Ralph Loop criteria detected</trigger>
+  <validation>
+    <check>Task count > 5 OR scope keywords present</check>
+    <check>Multi-session work estimated</check>
+  </validation>
+  <on-pass>Suggest Ralph Loop to user</on-pass>
+  <on-fail>Continue with COMPLEX routing</on-fail>
+</stop-hook>
+
+<stop-hook id="HOOK-RTE-005" type="GATE">
+  <trigger>Context usage > 50%</trigger>
+  <validation>
+    <check>Current task can complete in remaining context</check>
+  </validation>
+  <on-pass>Continue with warning</on-pass>
+  <on-fail>Checkpoint and recommend fresh session</on-fail>
+</stop-hook>
+
+<stop-hook id="HOOK-RTE-006" type="SOFT">
+  <trigger>RLM criteria detected</trigger>
+  <validation>
+    <check>Document > 30 pages OR multiple related docs</check>
+    <check>Multi-hop reasoning required</check>
+  </validation>
+  <on-pass>Apply RLM methodology (LAR-027, PR-019)</on-pass>
+  <on-fail>Continue with standard processing</on-fail>
+</stop-hook>
+
+<stop-hook id="HOOK-RTE-007" type="GATE">
+  <trigger>Due diligence or document suite detected</trigger>
+  <validation>
+    <check>Multiple documents with relationships</check>
+    <check>Complex analysis required</check>
+  </validation>
+  <on-pass>Route to Persona 017</on-pass>
+  <on-fail>Handle with domain persona + RLM</on-fail>
+</stop-hook>
+```
+
+---
+
+## Fail-Safe
+
+If routing is unclear:
+1. Default to **010 The Architect**
+2. Analyse and re-route from there
+3. Ask ONE clarifying question if still unclear
 
 ---
 
@@ -298,11 +418,10 @@ Monitor for signs of degradation:
 
 | Version | Date | Changes |
 |---------|------|---------|
-| **1.3** | **29 Jan 2026** | **CTX-001 integration, compression routing, goal drift detection** |
-| 1.2 | 18 Jan 2026 | Added RLM auto-detection, Persona 017 routing |
+| **1.2** | **18 Jan 2026** | **Added RLM auto-detection, Persona 017 routing, context thresholds** |
 | 1.1 | 17 Jan 2026 | Added Ralph Loop auto-detection |
 | 1.0 | - | Initial release |
 
 ---
 
-*Frans Skill LAR-006 | Autonomous Routing v1.3 | Always Active*
+*Frans Skill LAR-006 | Autonomous Routing v1.2 | Always Active*
