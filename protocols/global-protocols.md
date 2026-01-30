@@ -1,4 +1,4 @@
-# Global Protocols v3.4
+# Global Protocols v3.5
 
 ## MANDATORY: Device Detection Protocol (DEV-001) - Execute FIRST
 
@@ -29,16 +29,28 @@ STEP 1: DETECT DEVICE (ALWAYS FIRST)
 | **LAPTOP** | `C:\Users\Frans Vermaak\` | `~\GitHub\MPD` | `Memory\Laptop\` |
 | **WEB/MOBILE** | N/A | N/A | Read-only |
 
+### Shared Resources (All Devices)
+
+| Resource | Path |
+|----------|------|
+| **API Keys** | `G:\My Drive\Shared_Download\AI_Folder\config\.env` |
+| **Shared Memory** | `G:\My Drive\Shared_Download\AI_Folder\Memory\Shared\` |
+| **MPD Skills** | `G:\My Drive\Shared_Download\AI_Folder\` (via Google Drive sync) |
+
+**Loading API Keys:** Use LAR-038 (env-loader) - keys sync across all devices.
+
 ---
 
 ## Version Protocol
 
 ```
-Master Prompts: v4.8.5
-Skill Registry: v2.2
+Master Prompts: v5.4
+Skill Registry: v2.8
 Memory Protocol: v1.1
-Global Protocols: v3.4
-Session Persistence: v1.0
+Global Protocols: v3.5
+Session Persistence: v2.0
+Context Compression: CTX-001
+Parallel Orchestration: PR-023
 ```
 
 ---
@@ -156,11 +168,12 @@ BEFORE SESSION ENDS:
 
 | Version | Date | Changes |
 |---------|------|---------|
-| **3.4** | **15 Jan 2026** | **Session Persistence Protocol (SES-001) - auto-checkpointing, context compaction** |
+| **3.5** | **30 Jan 2026** | **Centralised .env for API keys, LAR-038, updated versions** |
+| 3.4 | 15 Jan 2026 | Session Persistence Protocol (SES-001) |
 | 3.3 | 15 Jan 2026 | Memory integration, LAR-024, session end checklist |
 | 3.2 | 14 Jan 2026 | Device Detection Protocol |
 | 3.1 | 12 Jan 2026 | Browser Security Protocol |
 
 ---
 
-*Frans Global Protocols v3.4 | Compatible with Master Prompts v4.8.5*
+*Frans Global Protocols v3.5 | Compatible with Master Prompts v5.4*

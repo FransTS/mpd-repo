@@ -5,16 +5,35 @@
 | Field | Value |
 |-------|-------|
 | **Protocol ID** | MCP-001 |
-| **Version** | 1.0 |
-| **Last Updated** | 09 January 2026 \| SAST (UTC+2) |
+| **Version** | 1.1 |
+| **Last Updated** | 30 January 2026 \| SAST (UTC+2) |
 | **Owner** | Frans Vermaak (CTGO, LarcAI) |
-| **Compatible With** | Master Prompts v4.8 |
+| **Compatible With** | Master Prompts v5.4 |
 
 ---
 
 ## Purpose
 
 Enable intelligent detection and utilisation of Model Context Protocol (MCP) servers when available, with graceful fallback for environments without MCP access (mobile, unconfigured PCs).
+
+---
+
+## Centralised API Keys
+
+**Location:** `G:\My Drive\Shared_Download\AI_Folder\config\.env`
+
+All API keys are stored centrally and sync across devices via Google Drive.
+
+```bash
+# Load keys when needed
+TAVILY_API_KEY=tvly-xxx
+CONTEXT7_API_KEY=xxx
+GEMINI_API_KEY=xxx
+OPENAI_API_KEY=sk-xxx
+ANTHROPIC_API_KEY=sk-ant-xxx
+```
+
+**Loading keys:** See LAR-038 (env-loader) for methods.
 
 ---
 

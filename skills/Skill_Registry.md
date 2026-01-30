@@ -1,25 +1,28 @@
-﻿# Frans Skill Registry v2.7
+﻿# Frans Skill Registry v2.8
 
 | Field | Value |
 |-------|-------|
-| **Document ID** | FRANS-SKILL-REG-2026-009 |
-| **Version** | 2.7 |
-| **Last Updated** | 29 January 2026 | SAST (UTC+2) |
+| **Document ID** | FRANS-SKILL-REG-2026-010 |
+| **Version** | 2.8 |
+| **Last Updated** | 30 January 2026 | SAST (UTC+2) |
 | **Owner** | Frans Vermaak (CTGO, LarcAI) |
 | **Compatible With** | Frans Master Prompts v5.4 |
 
 ---
 
-> **NEW in v2.7:**
-> - CTX-001 Context Compression Protocol (LangChain Deep Agents methodology)
-> - LAR-033 Context Compression Skill (three-tier compression)
-> - SES-001 v2.0 with compression integration
-> - LAR-006 v1.3 with compression routing
-> - Goal drift detection and recovery
+> **NEW in v2.8:**
+> - PR-023 Parallel Orchestration Protocol (Conductor-equivalent)
+> - LAR-034 Parallel Worktrees (multi-agent development)
+> - LAR-035 Tavily Research (AI-powered web research)
+> - LAR-036 Context7 Documentation (live library docs)
+> - LAR-037 NotebookLM Context (pre-aggregation)
+> - LAR-038 Environment Loader (centralised .env for API keys)
+> - Windows orchestrator scripts (spawn/sync/cleanup)
+> - LAR-022 v1.1 with Tavily MCP configuration
 >
+> **v2.7:** CTX-001 Context Compression, LAR-033, goal drift detection
 > **v2.6:** LAR-031 Development Testing Protocol
 > **v2.5:** LAR-030 Document Review Methodology
-> **v2.4:** LAR-027 RLM Framework, LAR-028/029 Complex Documents
 
 ---
 
@@ -72,6 +75,11 @@
 | LAR-029 | complex-document-analysis | "document suite" |
 | LAR-030 | document-review | "review document" |
 | LAR-032 | quotation-validation | "validate quote" |
+| **LAR-034** | **parallel-worktrees** | **"parallel agents", "conductor"** |
+| **LAR-035** | **tavily-research** | **"tavily", "research report"** |
+| **LAR-036** | **context7-docs** | **"use context7", "library docs"** |
+| **LAR-037** | **notebooklm-context** | **"aggregate context", "notebooklm"** |
+| **LAR-038** | **env-loader** | **"load env", "load keys"** |
 
 ### Tier 3: Specialist Skills
 
@@ -94,6 +102,7 @@
 | PR-017 | Long Complex Task | Multi-step workflows |
 | PR-018 | Ralph Loop | Fresh context execution |
 | PR-019 | RLM Protocol | Document processing |
+| **PR-023** | **Parallel Orchestration** | **Multi-agent worktrees** |
 
 ---
 
@@ -112,10 +121,11 @@
 
 | Version | Date | Changes |
 |---------|------|---------|
-| **2.7** | **29 Jan 2026** | **CTX-001, LAR-033, compression integration** |
+| **2.8** | **30 Jan 2026** | **PR-023, LAR-034/035/036/037, parallel orchestration** |
+| 2.7 | 29 Jan 2026 | CTX-001, LAR-033, compression integration |
 | 2.6 | 26 Jan 2026 | LAR-031 development-testing |
 | 2.5 | 19 Jan 2026 | LAR-030 document-review |
 
 ---
 
-*Frans Skill Registry v2.7 | Compatible with Frans Master Prompts v5.4*
+*Frans Skill Registry v2.8 | Compatible with Frans Master Prompts v5.4*

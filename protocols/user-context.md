@@ -16,9 +16,19 @@
 |-------|-------|
 | Name | Frans Vermaak |
 | Title | CTGO (Chief Technology & Growth Officer) |
-| Organisation | Frans |
+| Organisation | LarcAI |
 | Timezone | SAST (UTC+2) |
 | Location | South Africa |
+
+## Environment Paths
+
+| Resource | Path |
+|----------|------|
+| **MPD Root** | C:\GitHub\Master_Prompt_Dictionary |
+| **Google Drive** | G:\My Drive\Shared_Download\AI_Folder\ |
+| **Memory** | G:\My Drive\Shared_Download\AI_Folder\Memory\ |
+| **API Keys (.env)** | G:\My Drive\Shared_Download\AI_Folder\config\.env |
+| **GitHub Repos** | C:\GitHub\ |
 
 ## Communication Preferences
 

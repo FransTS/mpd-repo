@@ -5,10 +5,10 @@
 | Field | Value |
 |-------|-------|
 | **Name** | mcp-setup-guide |
-| **Version** | 1.0 |
+| **Version** | 1.1 |
 | **ID** | LAR-022 |
 | **Triggers** | "setup mcp", "configure mcp", "mcp not working", "install mcp" |
-| **Google Doc Name** | `SKILL_MCPSetupGuide` |
+| **Updated** | 30 January 2026 |
 
 ---
 
@@ -68,7 +68,8 @@ Click **Yes** when asked to create a new file.
         "-y",
         "@modelcontextprotocol/server-filesystem",
         "C:\\Users\\USERNAME\\Documents",
-        "C:\\Users\\USERNAME\\GoogleDrive-AI"
+        "C:\\Users\\USERNAME\\GoogleDrive-AI",
+        "C:\\GitHub"
       ]
     },
     "windows-mcp": {
@@ -88,14 +89,26 @@ Click **Yes** when asked to create a new file.
       "command": "npx",
       "args": [
         "-y",
-        "@anthropic/mcp-server-context7"
+        "@upstash/context7-mcp@latest"
       ]
+    },
+    "tavily": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@anthropic/mcp-server-tavily"
+      ],
+      "env": {
+        "TAVILY_API_KEY": "tvly-YOUR_API_KEY"
+      }
     }
   }
 }
 ```
 
-**IMPORTANT:** Replace `USERNAME` with your actual Windows username.
+**IMPORTANT:**
+- Replace `USERNAME` with your actual Windows username
+- Replace `tvly-YOUR_API_KEY` with your Tavily API key (get free key at [tavily.com](https://tavily.com))
 
 ### Step 5: Save and Restart
 
@@ -203,7 +216,7 @@ Click **Yes** when asked to create a new file.
   "command": "npx",
   "args": [
     "-y",
-    "@upstash/context7-mcp"
+    "@upstash/context7-mcp@latest"
   ]
 }
 ```
@@ -212,6 +225,56 @@ Click **Yes** when asked to create a new file.
 - Resolve library IDs
 - Fetch documentation by topic
 - Get code examples
+- Version-specific documentation
+
+**Usage:** Add "use context7" to prompts for automatic documentation lookup.
+
+**Optional API Key:** For higher rate limits, get free key at [context7.com/dashboard](https://context7.com/dashboard)
+
+```json
+"context7": {
+  "command": "npx",
+  "args": ["-y", "@upstash/context7-mcp@latest"],
+  "env": {
+    "CONTEXT7_API_KEY": "your-api-key"
+  }
+}
+```
+
+---
+
+### Tavily Server (NEW in v1.1)
+
+**Purpose:** AI-powered web research, content extraction, and research reports.
+
+```json
+"tavily": {
+  "command": "npx",
+  "args": [
+    "-y",
+    "@anthropic/mcp-server-tavily"
+  ],
+  "env": {
+    "TAVILY_API_KEY": "tvly-YOUR_API_KEY"
+  }
+}
+```
+
+**Capabilities:**
+- AI-optimised web search
+- Deep research reports
+- Content extraction from URLs
+- Domain filtering
+- Citation-rich results
+
+**API Key Required:** Get free key (1,000 searches/month) at [tavily.com](https://tavily.com)
+
+**Research Modes:**
+- `basic` - Quick surface-level search
+- `advanced` - Deep comprehensive search
+- `research` - Full report with citations
+
+See: LAR-035-tavily-research.md for full usage guide.
 
 ---
 
@@ -342,10 +405,9 @@ Use State-Tool with use_vision=false for text-only state
       "args": [
         "-y",
         "@modelcontextprotocol/server-filesystem",
-        "C:\\Users\\FransVermaak\\Documents",
-        "C:\\Users\\FransVermaak\\GoogleDrive-AI",
-        "G:\\My Drive\\Shared_Download\\AI_Folder",
-        "C:\\Users\\FransVermaak\\Desktop"
+        "C:\\Users\\Frans Vermaak\\Documents",
+        "C:\\GitHub",
+        "G:\\My Drive\\Shared_Download\\AI_Folder"
       ]
     },
     "windows-mcp": {
@@ -365,8 +427,21 @@ Use State-Tool with use_vision=false for text-only state
       "command": "npx",
       "args": [
         "-y",
-        "@upstash/context7-mcp"
-      ]
+        "@upstash/context7-mcp@latest"
+      ],
+      "env": {
+        "CONTEXT7_API_KEY": "optional-for-higher-limits"
+      }
+    },
+    "tavily": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@anthropic/mcp-server-tavily"
+      ],
+      "env": {
+        "TAVILY_API_KEY": "tvly-YOUR_API_KEY"
+      }
     }
   }
 }
@@ -426,8 +501,9 @@ npm cache clean --force
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.1 | 30 Jan 2026 | Added Tavily server, updated Context7 config |
 | 1.0 | 09 Jan 2026 | Initial MCP Setup Guide |
 
 ---
 
-*Frans Skill LAR-022 | MCP Setup Guide v1.0*
+*Frans Skill LAR-022 | MCP Setup Guide v1.1*
